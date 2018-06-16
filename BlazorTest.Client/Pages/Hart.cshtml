@@ -1,0 +1,82 @@
+﻿@using BlazorTest.Shared
+@page "/hart"
+@inject HttpClient Http
+
+<h1>Employee List</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (employees == null)
+{
+  <p><em>Loading...</em></p>
+}
+else
+{
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Birthday</th>
+        <th>Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var e in employees)
+      {
+        <tr>
+          <td>@e.Id</td>
+          <td>@e.Name</td>
+          <td>@e.Birthday.ToShortDateString()</td>
+          <td>@e.Age</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Birthday</th>
+        <th>Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var e in employeesList)
+      {
+        <tr>
+          <td>@e.Id</td>
+          <td>@e.Name</td>
+          <td>@e.Birthday.ToShortDateString()</td>
+          <td>@e.Age</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+}
+
+@functions {
+Employee[] employees;
+List<Employee> employeesList;
+
+protected override void OnInit()
+{
+  Console.WriteLine("ok");
+  //var t = Console.In.ReadLine();
+  //Console.WriteLine($"t:{t}");
+  base.OnInit();
+}
+
+protected override async Task OnInitAsync()
+{
+  employees = await Http.GetJsonAsync<Employee[]>("api/Employees/GetEmployees");
+
+  employeesList = employees.Where(e => e.Id < 4).ToList();
+
+        
+}
+
+}

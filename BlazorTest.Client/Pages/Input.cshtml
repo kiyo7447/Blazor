@@ -1,0 +1,57 @@
+﻿@using BlazorTest.Shared
+@page "/input"
+@inject HttpClient Http
+
+<h1>Tab List</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+<p>@count</p>
+<p>@date</p>
+@if (swicth == SwitchEnum.FirstPage)
+{
+<div>
+  <p><em>First Page</em></p>
+
+  従業員コード: <input type="text" bind=@EmpCode /><br />
+</div>
+}
+else if (swicth == SwitchEnum.SecondPage)
+{
+  <div>
+    <p><em>Second Page</em></p>
+  </div>
+
+}
+
+<button class="btn btn-primary" onclick="@Change">Click me</button>
+
+@functions {
+    enum SwitchEnum
+    {
+      FirstPage,
+      SecondPage
+    }
+    SwitchEnum swicth = SwitchEnum.FirstPage;
+
+    string EmpCode;
+
+    int count = 0;
+    DateTime date;
+
+    void Change()
+    {
+      count++;
+      date = DateTime.Now;
+
+      var employeecode = Facade.Checker.Code.Check(count, CodeEnum.EmployeeCode);
+
+
+      if (swicth == SwitchEnum.FirstPage)
+        swicth = SwitchEnum.SecondPage;
+
+
+      else
+        swicth = SwitchEnum.FirstPage;
+
+    }
+}

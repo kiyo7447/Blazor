@@ -1,0 +1,59 @@
+﻿@page "/router"
+@page "/router2/{name}"
+@page "/router3/{text}"
+
+<h1>Router Test</h1>
+
+<p>Blazor is Test : @Text!</p>
+<p>Blazor is Name : @Name!</p>
+
+<a href="router">router</a>
+<a href="router2/123">router2</a>
+<a href="router3/123456">router3</a>
+@functions {
+    [Parameter]
+    private string Text { get; set; } = "fantastic";
+
+    [Parameter]
+    private string Name { get; set; } = "hogehogename";
+
+    protected override void OnInit()
+    {
+      Console.WriteLine("OnInit();");
+      base.OnInit();
+    }
+
+    protected override bool ShouldRender()
+    {
+      //    Text = "none";
+      //    Name = "none";
+      Console.WriteLine("ShouldRender();");
+
+      var renderUI = true;
+
+      return renderUI;
+    }
+
+    protected override void OnAfterRender()
+    {
+      Console.WriteLine("OnAfterRender();");
+      base.OnAfterRender();
+    }
+
+    protected override void OnParametersSet()
+    {
+
+      base.OnParametersSet();
+    }
+
+    public override void SetParameters(ParameterCollection parameters)
+    {
+      foreach(var p in parameters)
+      {
+        Console.WriteLine($"Name:{p.Name}");
+        Console.WriteLine($"Value:{p.Value}");
+      }
+
+      base.SetParameters(parameters);
+    }
+}

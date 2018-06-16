@@ -1,0 +1,12 @@
+﻿<div class="panel panel-success">
+  <div class="panel-heading">@Title  + ":ok"</div>
+  <div class="panel-body">@ChildContent</div>
+</div>
+
+@functions {
+    [Parameter]
+    private string Title { get; set; }
+
+    [Parameter]
+    private RenderFragment ChildContent { get; set; }
+}

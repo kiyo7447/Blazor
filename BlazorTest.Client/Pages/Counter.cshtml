@@ -1,0 +1,51 @@
+﻿@page "/counter"
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+<p>name : @name</p>
+<p>date time: @d</p>
+<p> error: @errmsg</p>
+<button class="btn btn-primary" onclick="@IncrementCount">Click me</button>
+<button class="btn btn-primary" onclick="@TestInput">Test Input</button>
+
+<input bind="@inputstr" />
+<input type="checkbox" bind="@IsSelected" />
+@functions {public bool IsSelected { get; set; }}
+<input type="date" bind="@StartDate" format="yyyy-MM-dd" />
+@functions {public string StartDate { get; set; }}
+
+<p>@inputstr</p>
+<button class="btn btn-primary" onclick="@ShowInput">Show Input Data</button>
+
+@functions {
+    int currentCount = 0;
+    DateTime d;
+    string name = "hoge22:" + $"{DateTime.Now:yyyy/MM/dd HH:mm:dd}";
+    string errmsg;
+
+    string inputstr;
+    void IncrementCount()
+    {
+      d = DateTime.Now;
+      currentCount++;
+      if (currentCount > 10) errmsg = "error!";
+    }
+    void TestInput()
+    {
+      var input = Console.In.ReadLine();
+      Console.WriteLine($"input:{input}");
+    }
+    void ShowInput()
+    {
+      Console.WriteLine($"input str:{inputstr}");
+      Console.WriteLine($"input checkbox:{IsSelected}");
+      Console.WriteLine($"input date:{StartDate}");
+
+        
+    }
+
+
+
+}
+
