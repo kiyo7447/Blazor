@@ -1,4 +1,5 @@
 ﻿@using BlazorTest.Shared
+@using BlazorTest.Library
 @page "/input"
 @inject HttpClient Http
 
@@ -49,7 +50,7 @@
 
         if (Check() == false)
         {
-            _inpEmpCode.
+            _inpEmpCode.Focus();
             return;
         }
         return;

@@ -6,3 +6,8 @@ Blazor.registerFunction('BlazorTest.Library.ExampleJsInterop.Prompt', function (
 });
 
 
+Blazor.registerFunction('BlazorFocus.FocusElement', function (element) {
+    element.focus();
+    element.select();
+});
+
