@@ -31,11 +31,14 @@ namespace BlazorTest.Server.Controllers
         }
 
 		[HttpPost("[action]")]
-		public IEnumerable<string> Update(IEnumerable<string> code)
+		public IEnumerable<string> Update([FromBody]Employee employee)
 		{
-			Debug.WriteLine($"code:{code.Count()}");
+			Debug.WriteLine($"code:{employee.Name}");
 
-			return Enumerable.Range(1, 3).Select(index => index.ToString()) ;
+//            var r = this.Content();
+
+            
+            return Enumerable.Range(1, 3).Select(index => index.ToString()) ;
 
 		}
 	}

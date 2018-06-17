@@ -30,10 +30,10 @@ namespace BlazorTest.Shared
 					}
 					else
 					{
-						throw new SystemException($"コードがまだ実装中");
+						throw new NotImplementedException($"コードがまだ実装中");
 					}
 				case CodeEnum.StoreCode:
-					throw new ApplicationException("入力エラー");
+					throw new NotImplementedException("入力エラー");
 				default:
 					throw new SystemException($"コードをまだ実装中");
 			}

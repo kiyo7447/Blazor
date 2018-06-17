@@ -1,64 +1,81 @@
 ﻿@using BlazorTest.Shared
 @using BlazorTest.Library
+
 @page "/input"
 @inject HttpClient Http
 
 <h1>Input</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-
-従業員コード: <input type="text" bind=@EmpCode ref="_inpEmpCode" />@ErrorMessage<br />
+<div>
+    従業員コード: <input type="text" bind=@EmpCode ref="_inpEmpCode" class="form-control" autofocus />
+</div>
+@if (ErrorMessage.Length > 0) { 
+<div class="alert alert-danger">
+    <strong>エラー：</strong> @ErrorMessage
+</div>
+}
+<br />
 @EmpCode<br />
 <button class="btn btn-primary" onclick="@UpdateEmployee">更新</button>
 
 @functions  {
-    ElementRef _inpEmpCode;
-    string _empCode;
-    string EmpCode {
-        get {
-            Console.WriteLine($"property set emp code:{_empCode}");
-            return _empCode;
-        }
-        set
-        {
-            Console.WriteLine($"property get emp code:{_empCode}");
-            _empCode = value;
-        }
-    }
-
-    bool Check()
+ElementRef _inpEmpCode;
+string _empCode = "1";
+string EmpCode
+{
+    get
     {
-        try
-        {
-            ErrorMessage = "";
-            Facade.Checker.Code.IsRequire(EmpCode, CodeEnum.EmployeeCode);
-            EmpCode = Facade.Checker.Code.Check(EmpCode, CodeEnum.EmployeeCode);
-            return true;
-        }
-        catch (ApplicationException ae)
-        {
-            ErrorMessage = ae.Message;
-            return false;
-        }
+        Console.WriteLine($"property set emp code:{_empCode}");
+        return _empCode;
     }
-
-    string ErrorMessage = "";
-
-    async Task UpdateEmployee()
+    set
     {
-        Console.WriteLine($"Employee Code:{EmpCode}");
+        Console.WriteLine($"property get emp code:{_empCode}");
+        _empCode = value;
+    }
+}
 
-        if (Check() == false)
-        {
-            _inpEmpCode.Focus();
-            return;
-        }
+bool Check()
+{
+    try
+    {
+        ErrorMessage = "";
+        Facade.Checker.Code.IsRequire(EmpCode, CodeEnum.EmployeeCode);
+        EmpCode = Facade.Checker.Code.Check(EmpCode, CodeEnum.EmployeeCode);
+        return true;
+    }
+    catch (ApplicationException ae)
+    {
+        ErrorMessage = ae.Message;
+        return false;
+    }
+}
+
+string ErrorMessage = "";
+
+async Task UpdateEmployee()
+{
+    Console.WriteLine($"Employee Code:{EmpCode}");
+
+    if (Check() == false)
+    {
+        _inpEmpCode.Focus();
         return;
-
-        IEnumerable<string> code = new List<string> { EmpCode };
-        var ret = await Http.PostJsonAsync<IEnumerable<string>>("api/Employees/Update", code);
-
-        Console.WriteLine($"更新結果：{ret.Count()}");
     }
+    //return;
+
+    //List<string> code = new List<string> { EmpCode };
+    //code.Add(EmpCode);
+
+    var employee = new Employee() { Id = 1, Name = EmpCode, Birthday = DateTime.Now };
+    //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
+
+    //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+    var ret = await Http.PostJsonAsync<IEnumerable<string>>("api/Employees/Update", employee);
+
+    Console.WriteLine($"更新結果：{ret.Count()}");
+}
 
 }
