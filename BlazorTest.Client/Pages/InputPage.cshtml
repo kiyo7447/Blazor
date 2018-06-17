@@ -5,76 +5,100 @@
 <h1>Input</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-<div>
-    従業員コード: <input type="text" bind=@EmpCode ref="_inpEmpCode" class="form-control" autofocus />
-</div>
-@if (ErrorMessage.Length > 0)
+
+@if (IsServerProc == false)
 {
-    <div class="alert alert-danger">
-        <strong>エラー：</strong> @ErrorMessage
+
+<div class="form-group row">
+    <label for="" class="col-sm-2 col-form-label">従業員コード</label>
+
+    <div class="col-sm-10">
+        <input type="text" bind=@EmpCode ref="_inpEmpoyeeCode" class=" form-control" placeholder="数字６桁" />
     </div>
-}
+    @if (ErrorMessage.Length > 0)
+    {
+        <div class="col-sm-12 alert alert-danger">
+          <strong>エラー：</strong>@ErrorMessage
+        </div>
+    }
+
+</div>
+
 <br />
 @EmpCode<br />
 <button class="btn btn-primary" onclick="@UpdateEmployee">更新</button>
 
+}
+else
+{
+<div>
+    Server Processing...<br />
+    <img src="../tenor.gif" />
+</div>
+}
 @functions  {
-ElementRef _inpEmpCode;
-string _empCode = "1";
-string EmpCode
-{
-    get
+    ElementRef _inpEmpoyeeCode;
+    string _empCode = "1";
+    bool IsServerProc = false;
+
+    string EmpCode
     {
-        Console.WriteLine($"property set emp code:{_empCode}");
-        return _empCode;
+        get
+        {
+            Console.WriteLine($"property set emp code:{_empCode}");
+            return _empCode;
+        }
+        set
+        {
+            Console.WriteLine($"property get emp code:{_empCode}");
+            _empCode = value;
+        }
     }
-    set
+
+    bool Check()
     {
-        Console.WriteLine($"property get emp code:{_empCode}");
-        _empCode = value;
+        try
+        {
+            ErrorMessage = "";
+            Facade.Checker.Code.IsRequire(EmpCode, CodeEnum.EmployeeCode);
+            EmpCode = Facade.Checker.Code.Check(EmpCode, CodeEnum.EmployeeCode);
+            return true;
+        }
+        catch (ApplicationException ae)
+        {
+            ErrorMessage = ae.Message;
+            return false;
+        }
     }
-}
 
-bool Check()
-{
-    try
+    string ErrorMessage = "";
+
+    async Task UpdateEmployee()
     {
-        ErrorMessage = "";
-        Facade.Checker.Code.IsRequire(EmpCode, CodeEnum.EmployeeCode);
-        EmpCode = Facade.Checker.Code.Check(EmpCode, CodeEnum.EmployeeCode);
-        return true;
+        Console.WriteLine($"Employee Code:{EmpCode}");
+
+        if (Check() == false)
+        {
+            _inpEmpoyeeCode.Focus();
+            return;
+        }
+        //return;
+
+        //List<string> code = new List<string> { EmpCode };
+        //code.Add(EmpCode);
+
+        var employee = new Employee() { Id = 1, Name = EmpCode, Birthday = DateTime.Now };
+        //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
+
+        //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+        IsServerProc = true;
+
+        List<Employee> employees = new List<Employee>() { employee };
+
+        var ret = await Http.PostJsonAsync<IEnumerable<string>>("api/Employees/Update", employees);
+
+        IsServerProc = false;
+        Console.WriteLine($"更新結果：{ret.Count()}");
     }
-    catch (ApplicationException ae)
-    {
-        ErrorMessage = ae.Message;
-        return false;
-    }
-}
-
-string ErrorMessage = "";
-
-async Task UpdateEmployee()
-{
-    Console.WriteLine($"Employee Code:{EmpCode}");
-
-    if (Check() == false)
-    {
-        _inpEmpCode.Focus();
-        return;
-    }
-    //return;
-
-    //List<string> code = new List<string> { EmpCode };
-    //code.Add(EmpCode);
-
-    var employee = new Employee() { Id = 1, Name = EmpCode, Birthday = DateTime.Now };
-    //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
-
-    //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-
-    var ret = await Http.PostJsonAsync<IEnumerable<string>>("api/Employees/Update", employee);
-
-    Console.WriteLine($"更新結果：{ret.Count()}");
-}
 
 }

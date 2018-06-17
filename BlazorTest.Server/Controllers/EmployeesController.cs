@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace BlazorTest.Server.Controllers
 {
-	[Route("api/[controller]")]
-	public class EmployeesController : Controller
+    [Route("api/[controller]")]
+    public class EmployeesController : Controller
     {
         private static string[] Summaries = new[]
         {
@@ -21,25 +21,27 @@ namespace BlazorTest.Server.Controllers
         public IEnumerable<Employee> GetEmployees()
         {
             var rng = new Random();
-			//Thread.Sleep(10000);
-			return Enumerable.Range(1, 5).Select(index => new Employee
-			{
-				Id = index,
-				Birthday = DateTime.Now.AddDays(index),
-				Name = rng.Next(-20, 55).ToString()
-			});
+            //Thread.Sleep(10000);
+            return Enumerable.Range(1, 5).Select(index => new Employee
+            {
+                Id = index,
+                Birthday = DateTime.Now.AddDays(index),
+                Name = rng.Next(-20, 55).ToString()
+            });
         }
 
-		[HttpPost("[action]")]
-		public IEnumerable<string> Update([FromBody]Employee employee)
-		{
-			Debug.WriteLine($"code:{employee.Name}");
+        [HttpPost("[action]")]
+        public IEnumerable<string> Update([FromBody]IEnumerable<Employee> employee)
+        {
+            employee.All(e => {
+                Debug.WriteLine($"code:{e.Name}");
+                return true;
+            });
+            //            var r = this.Content();
+            Thread.Sleep(1300);
 
-//            var r = this.Content();
+            return Enumerable.Range(1, 3).Select(index => index.ToString());
 
-            
-            return Enumerable.Range(1, 3).Select(index => index.ToString()) ;
-
-		}
-	}
+        }
+    }
 }
