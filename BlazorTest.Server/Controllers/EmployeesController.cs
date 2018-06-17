@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,21 +30,12 @@ namespace BlazorTest.Server.Controllers
 			});
         }
 
-		[HttpGet("[action]")]
-		public IEnumerable<Employee> UpdateEmployees(IEnumerable<Employee> employees)
+		[HttpPost("[action]")]
+		public IEnumerable<string> Update(IEnumerable<string> code)
 		{
-			var rng = new Random();
+			Debug.WriteLine($"code:{code.Count()}");
 
-			var empcode = Facade.Checker.Code.Check(123, CodeEnum.EmployeeCode);
-
-			//Thread.Sleep(10000);
-			return Enumerable.Range(1, 5).Select(index => new Employee
-			{
-				Id = index,
-				Birthday = DateTime.Now.AddDays(index),
-				Name = rng.Next(-20, 55).ToString()
-			});
-
+			return Enumerable.Range(1, 3).Select(index => index.ToString()) ;
 
 		}
 	}

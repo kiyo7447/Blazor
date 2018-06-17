@@ -19,13 +19,30 @@ namespace BlazorTest.Shared
 			switch (codeEnum)
 			{
 				case CodeEnum.EmployeeCode:
-					return "001";
+
+					if (code is string)
+					{
+						int i;
+						if (int.TryParse(code.ToString(), out i))
+							return $"{i:D6}";
+						else
+							throw new ApplicationException($"数字のみ入力可能");
+					}
+					else
+					{
+						throw new SystemException($"コードがまだ実装中");
+					}
 				case CodeEnum.StoreCode:
 					throw new ApplicationException("入力エラー");
 				default:
-					throw new SystemException($"");
+					throw new SystemException($"コードをまだ実装中");
 			}
 			return code.ToString();
+		}
+
+		public void IsRequire(object code, CodeEnum codeEnum)
+		{
+			if (code.ToString().TrimEnd().Length == 0) throw new ApplicationException($"未入力エラー");
 		}
     }
 }

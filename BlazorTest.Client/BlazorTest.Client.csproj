@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\Input.cshtml">
+    <Content Update="Pages\InputPage.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Pages\Twoway.cshtml">
@@ -40,6 +40,10 @@
     <Content Update="Pages\Hart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Component\" />
   </ItemGroup>
 
 </Project>
