@@ -1,19 +1,18 @@
 ﻿@using BlazorTest.Shared
 @using BlazorTest.Library
-
 @page "/input"
 @inject HttpClient Http
-
 <h1>Input</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 <div>
     従業員コード: <input type="text" bind=@EmpCode ref="_inpEmpCode" class="form-control" autofocus />
 </div>
-@if (ErrorMessage.Length > 0) { 
-<div class="alert alert-danger">
-    <strong>エラー：</strong> @ErrorMessage
-</div>
+@if (ErrorMessage.Length > 0)
+{
+    <div class="alert alert-danger">
+        <strong>エラー：</strong> @ErrorMessage
+    </div>
 }
 <br />
 @EmpCode<br />
