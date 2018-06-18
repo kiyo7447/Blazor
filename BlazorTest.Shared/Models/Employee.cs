@@ -15,12 +15,6 @@ namespace BlazorTest.Shared
 
 		public int Age => DateTime.Now.Year - Birthday.Year;
 
-        public Dictionary<string, string> ErrorMessage = new Dictionary<string, string>();
-
-        public bool HasError()
-        {
-            return ErrorMessage.Count > 0 ? true : false;
-        }
 
         //public void SetError(string errorMessage)
         //{
@@ -44,20 +38,29 @@ namespace BlazorTest.Shared
 
         //}
 
-        public bool Check()
+        public Dictionary<string, string> ErrorMessage = new Dictionary<string, string>();
+
+        public bool IsValid()
+        {
+            return ErrorMessage.Count > 0 ? true : false;
+        }
+
+        public bool Validation()
         {
             ErrorMessage.Clear();
+            bool _ret = true;
             try
             {
                 Facade.Checker.Code.IsRequire(Code, CodeEnum.EmployeeCode);
                 Code = Facade.Checker.Code.Check(Code, CodeEnum.EmployeeCode);
-                return true;
             }
             catch (ApplicationException ae)
             {
                 ErrorMessage[nameof(Employee.Code)] = ae.Message;
-                return false;
+                _ret =  false;
             }
+
+            return _ret;
         }
 
     }

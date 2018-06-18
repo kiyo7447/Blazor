@@ -36,7 +36,7 @@ namespace BlazorTest.Server.Controllers
             //パラメータの表示
             employees.All(e => {
                 Debug.WriteLine($"Id:{e.Id}, Code:{e.Code}, Name:{e.Name}, Birthday:{e.Birthday}, Age:{e.Age}");
-                Debug.WriteLine($"e.HasError():{e.HasError()}");
+                Debug.WriteLine($"e.HasError():{e.IsValid()}");
                 e.ErrorMessage.All(d =>
                 {
                     Debug.WriteLine($"key:{d.Key}, ErrorMessage:{d.Value}");
@@ -48,7 +48,7 @@ namespace BlazorTest.Server.Controllers
             //DB以外の入力チェック（サーバ版）
             employees.All(e => {
                 e.ErrorMessage.Clear();
-                e.Check();
+                e.Validation();
                 return true;
             });
 

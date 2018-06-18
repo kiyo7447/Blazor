@@ -22,22 +22,22 @@ namespace BlazorTest.Shared
 						if (int.TryParse(code.ToString(), out int i))
 							return $"{i:D6}";
 						else
-							throw new ApplicationException($"数字のみ入力可能");
+							throw new ApplicationException($"数字のみ入力可能です。");
 					}
 					else
 					{
-						throw new NotImplementedException($"コードがまだ実装中");
+						throw new NotImplementedException($"コードがまだ実装中です。");
 					}
 				case CodeEnum.StoreCode:
-					throw new NotImplementedException("入力エラー");
+					throw new NotImplementedException("コードがまだ実装中です。");
 				default:
-					throw new SystemException($"コードをまだ実装中");
+					throw new SystemException($"コードをまだ実装中です。");
 			}
 		}
 
 		public void IsRequire(object code, CodeEnum codeEnum)
 		{
-			if (code.ToString().TrimEnd().Length == 0) throw new ApplicationException($"未入力エラー");
+			if (code.ToString().TrimEnd().Length == 0) throw new ApplicationException($"未入力エラーです。");
 		}
     }
 }
