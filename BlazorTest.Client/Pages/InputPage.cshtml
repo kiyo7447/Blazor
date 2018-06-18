@@ -9,35 +9,41 @@
 @if (IsServerProc == false)
 {
 
-<div class="form-group row">
-    <label for="" class="col-sm-2 col-form-label">従業員コード</label>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">従業員コード</label>
 
-    <div class="col-sm-10">
-        <input type="text" bind=@EmpCode ref="_inpEmpoyeeCode" class=" form-control" placeholder="数字６桁" />
-    </div>
-    @if (ErrorMessage.Length > 0)
-    {
-        <div class="col-sm-12 alert alert-danger">
-          <strong>エラー：</strong>@ErrorMessage
+        <div class="col-sm-10">
+            @*<ainp type="Code" repository="Employee.Code" require>@EmployeeCode</ainp>*@
+            @*<ainp type="Text" repository="Employee.Name" require>@EmployeeName</ainp>*@
+            @*<ainp type="Date" require>@EmpolyeeBirthday</ainp>*@
+            <input type="text" bind=employee.Code ref="_inpEmpoyeeCode" class=" form-control" placeholder="数字６桁" />
         </div>
-    }
+        @*@if (ErrorMessage.Length > 0)*@
+        @*@if (employee.GetError(nameof(Employee.Code)).Length > 0)*@
+        @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Code)))
+        {
+            @*<aeer>@EmployeeCodeErrorMessage</aeer>*@
+            <div class="col-sm-12 alert alert-danger">
+                <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Code)]
+            </div>
+        }
+    </div>
 
-</div>
-
-<br />
-@EmpCode<br />
-<button class="btn btn-primary" onclick="@UpdateEmployee">更新</button>
+    <br />
+    @employee.Name<br />
+    <button class="btn btn-primary" onclick="@UpdateEmployee">更新</button>
 
 }
 else
 {
-<div>
-    Server Processing...<br />
-    <img src="../tenor.gif" />
-</div>
+    <div>
+        Server Processing...<br />
+        <img src="../tenor.gif" />
+    </div>
 }
 @functions  {
     ElementRef _inpEmpoyeeCode;
+    Employee employee = new Employee() { Code = "6", Name = "hogehoge" };
     string _empCode = "1";
     bool IsServerProc = false;
 
@@ -55,18 +61,20 @@ else
         }
     }
 
-    bool Check()
+    bool Check(Employee employee)
     {
+        employee.ErrorMessage.Clear();
         try
         {
             ErrorMessage = "";
-            Facade.Checker.Code.IsRequire(EmpCode, CodeEnum.EmployeeCode);
-            EmpCode = Facade.Checker.Code.Check(EmpCode, CodeEnum.EmployeeCode);
+            Facade.Checker.Code.IsRequire(employee.Code, CodeEnum.EmployeeCode);
+            employee.Code = Facade.Checker.Code.Check(employee.Code, CodeEnum.EmployeeCode);
             return true;
         }
         catch (ApplicationException ae)
         {
             ErrorMessage = ae.Message;
+            employee.ErrorMessage[nameof(Employee.Name)] = ae.Message;
             return false;
         }
     }
@@ -77,7 +85,7 @@ else
     {
         Console.WriteLine($"Employee Code:{EmpCode}");
 
-        if (Check() == false)
+        if (Check(employee) == false)
         {
             _inpEmpoyeeCode.Focus();
             return;
@@ -87,18 +95,30 @@ else
         //List<string> code = new List<string> { EmpCode };
         //code.Add(EmpCode);
 
-        var employee = new Employee() { Id = 1, Name = EmpCode, Birthday = DateTime.Now };
+        //        var employee = new Employee() { Id = 1, Name = EmpCode, Birthday = DateTime.Now };
         //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
 
         //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
         IsServerProc = true;
 
-        List<Employee> employees = new List<Employee>() { employee };
+        employee.ErrorMessage["test"] = "エラーメッセージです。";
+        List<Employee> employees = new List<Employee>() { employee, employee };
 
-        var ret = await Http.PostJsonAsync<IEnumerable<string>>("api/Employees/Update", employees);
+        var ret = await Http.PostJsonAsync<IEnumerable<Employee>>("api/Employees/Update", employees);
 
         IsServerProc = false;
         Console.WriteLine($"更新結果：{ret.Count()}");
+        ret.All(e => {
+            Console.WriteLine($"Id:{e.Id}, Code:{e.Code}, Name:{e.Name}, Birthday:{e.Birthday}, Age:{e.Age}");
+            Console.WriteLine($"e.HasError():{e.HasError()}");
+            e.ErrorMessage.All(d =>
+            {
+                Console.WriteLine($"key:{d.Key}, ErrorMessage:{d.Value}");
+                return true;
+            });
+            return true;
+        });
+
     }
 
 }

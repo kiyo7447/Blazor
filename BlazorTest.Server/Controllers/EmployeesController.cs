@@ -31,16 +31,27 @@ namespace BlazorTest.Server.Controllers
         }
 
         [HttpPost("[action]")]
-        public IEnumerable<string> Update([FromBody]IEnumerable<Employee> employee)
+        public IEnumerable<Employee> Update([FromBody]IEnumerable<Employee> employee)
         {
             employee.All(e => {
-                Debug.WriteLine($"code:{e.Name}");
+                Debug.WriteLine($"Id:{e.Id}, Code:{e.Code}, Name:{e.Name}, Birthday:{e.Birthday}, Age:{e.Age}");
+                Debug.WriteLine($"e.HasError():{e.HasError()}");
+                e.ErrorMessage.All(d =>
+                {
+                    Debug.WriteLine($"key:{d.Key}, ErrorMessage:{d.Value}");
+                    return true;
+                });
                 return true;
             });
             //            var r = this.Content();
             Thread.Sleep(1300);
 
-            return Enumerable.Range(1, 3).Select(index => index.ToString());
+            return Enumerable.Range(1, 3).Select(index => new Employee {
+                Id = index,
+                Code = $"{index:D6}",
+                Name = "hogehoge",
+                Birthday = DateTime.Now.AddYears(-7)
+            });
 
         }
     }

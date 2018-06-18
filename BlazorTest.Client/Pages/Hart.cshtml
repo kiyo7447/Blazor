@@ -74,7 +74,7 @@ protected override async Task OnInitAsync()
 {
   employees = await Http.GetJsonAsync<Employee[]>("api/Employees/GetEmployees");
 
-  employeesList = employees.Where(e => e.Id < 4).ToList();
+  employeesList = employees.Where(e => e.Id < 3).ToList();
 
         
 }
