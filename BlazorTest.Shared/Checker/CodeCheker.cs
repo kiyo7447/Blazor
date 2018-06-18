@@ -13,17 +13,13 @@ namespace BlazorTest.Shared
 		public string Check(object code, CodeEnum codeEnum)
 		{
 			//数値化出来ないものは入力エラー
-
-
-
 			switch (codeEnum)
 			{
 				case CodeEnum.EmployeeCode:
 
 					if (code is string)
 					{
-						int i;
-						if (int.TryParse(code.ToString(), out i))
+						if (int.TryParse(code.ToString(), out int i))
 							return $"{i:D6}";
 						else
 							throw new ApplicationException($"数字のみ入力可能");
@@ -37,7 +33,6 @@ namespace BlazorTest.Shared
 				default:
 					throw new SystemException($"コードをまだ実装中");
 			}
-			return code.ToString();
 		}
 
 		public void IsRequire(object code, CodeEnum codeEnum)

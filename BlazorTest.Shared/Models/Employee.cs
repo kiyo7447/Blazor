@@ -26,7 +26,7 @@ namespace BlazorTest.Shared
         //{
         //    ErrorMessage[""] = errorMessage;
         //}
-        
+
         //public void SetError(string key, string errorMessage)
         //{
         //    ErrorMessage[key] = errorMessage;
@@ -43,5 +43,22 @@ namespace BlazorTest.Shared
         //    ErrorMessage.Clear();
 
         //}
+
+        public bool Check()
+        {
+            ErrorMessage.Clear();
+            try
+            {
+                Facade.Checker.Code.IsRequire(Code, CodeEnum.EmployeeCode);
+                Code = Facade.Checker.Code.Check(Code, CodeEnum.EmployeeCode);
+                return true;
+            }
+            catch (ApplicationException ae)
+            {
+                ErrorMessage[nameof(Employee.Code)] = ae.Message;
+                return false;
+            }
+        }
+
     }
 }
