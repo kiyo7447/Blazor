@@ -8,7 +8,6 @@
 {
     <div class="form-group row">
         <label for="" class="col-sm-2 col-form-label">従業員コード</label>
-
         <div class="col-sm-10">
             @*<ainp type="Code" repository="Employee.Code" require>@EmployeeCode</ainp>*@
             @*<ainp type="Text" repository="Employee.Name" require>@EmployeeName</ainp>*@
@@ -28,7 +27,7 @@
 
     <br />
     @employee.Name<br />
-    <button class="btn btn-primary" onclick="@UpdateEmployee">更新</button><br />
+    <button class="btn btn-primary" onclick="@UpdateEmployee" ref="_btnSave">更新</button><br />
     <div class="form-check">
         <input type="checkbox" bind=IsClientErrorCheck class="form-check-input" />
         <label class="form-check-label" for="exampleCheck1">Client Error Check</label>
@@ -41,50 +40,81 @@ else
         <img src="../tenor.gif" />
     </div>
 }
+
+
 @functions  {
-ElementRef _inpEmpoyeeCode;
-Employee employee = new Employee() { Id = 6, Code = "000006", Name = "hogehoge", Birthday = new DateTime(2011, 1, 17) };
-bool IsServerProc = false;
-bool IsClientErrorCheck = true;
-async Task UpdateEmployee()
-{
-    //Console.WriteLine($"Employee Code:{EmpCode}");
+    ElementRef _inpEmpoyeeCode;
+    ElementRef _btnSave;
+    Employee employee = new Employee() { Id = 6, Code = "000006", Name = "hogehoge", Birthday = new DateTime(2011, 1, 17) };
+    bool IsServerProc = false;
+    bool IsClientErrorCheck = true;
 
-    //DB以外の入力チェック（クライアント版）
-    if (IsClientErrorCheck == true && employee.Validation() == false)
+    async Task UpdateEmployee()
     {
-        if (employee.ErrorMessage.ContainsKey(nameof(employee.Code)))
+        //Console.WriteLine($"Employee Code:{EmpCode}");
+
+        //DB以外の入力チェック（クライアント版）
+        if (IsClientErrorCheck == true && employee.Validation() == false)
         {
-            _inpEmpoyeeCode.Focus();
-            return;
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.Code)))
+            {
+                _inpEmpoyeeCode.Focus();
+                return;
+            }
+            throw new NotImplementedException("未実装");
         }
-        throw new NotImplementedException("未実装");
-    }
 
-    //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
-    //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+        //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
+        //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-    //employee.ErrorMessage["test"] = "エラーメッセージです。";
-    List<Employee> employees = new List<Employee>() { employee, employee };
+        //employee.ErrorMessage["test"] = "エラーメッセージです。";
+        List<Employee> employees = new List<Employee>() { employee, employee };
 
-    IsServerProc = true;
-    var ret = await Http.PostJsonAsync<IEnumerable<Employee>>("api/Employees/Update", employees);
-    IsServerProc = false;
+        IsServerProc = true;
+        var ret = await Http.PostJsonAsync<IEnumerable<Employee>>("api/Employees/Update", employees);
+        IsServerProc = false;
 
-    //画面が切り替わっていなので動作しない
-    //_inpEmpoyeeCode.Focus();
+        //_focusElement = _inpEmpoyeeCode;
 
-    Console.WriteLine($"更新結果：{ret.Count()}");
-    ret.All(e =>
-    {
-        Console.WriteLine($"Id:{e.Id}, Code:{e.Code}, Name:{e.Name}, Birthday:{e.Birthday}, Age:{e.Age}");
-        Console.WriteLine($"e.HasError():{e.IsValid()}");
-        e.ErrorMessage.All(d =>
+        //_inpEmpoyeeCode.Focus();
+
+        Console.WriteLine($"更新結果：{ret.Count()}");
+        ret.All(e =>
         {
-            Console.WriteLine($"key:{d.Key}, ErrorMessage:{d.Value}");
+            Console.WriteLine($"Id:{e.Id}, Code:{e.Code}, Name:{e.Name}, Birthday:{e.Birthday}, Age:{e.Age}");
+            Console.WriteLine($"e.HasError():{e.IsValid()}");
+            e.ErrorMessage.All(d =>
+            {
+                Console.WriteLine($"key:{d.Key}, ErrorMessage:{d.Value}");
+                return true;
+            });
             return true;
         });
-        return true;
-    });
-}
+    }
+
+    private void OpenModal ()
+    {
+
+        //myModal.modal();
+    }
+
+    protected override void OnAfterRender()
+    {
+        Console.Out.WriteLine($"OnAfterRender()");
+        base.OnAfterRender();
+    }
+
+    protected override Task OnAfterRenderAsync()
+    {
+        //if (_focusElement)
+        //{
+        //    ((ElementRef)_focusElement).Focus();
+        //    _focusElement = null;
+        //}
+        //if (_inpEmpoyeeCode.Equals(_focusElement)) _inpEmpoyeeCode.Focus();
+        //_inpEmpoyeeCode.Focus();
+        //_inpEmpoyeeCode = _btnSave;
+        Console.Out.WriteLine($"OnAfterRenderAsync()");
+        return base.OnAfterRenderAsync();
+    }
 }

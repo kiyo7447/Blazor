@@ -1,0 +1,18 @@
+﻿<input type="text" bind="@ChildContent" ref="@ARef" class="form-control" placeholder="hogehoge" />
+@functions {
+    [Parameter]
+    private string Title { get; set; }
+
+    [Parameter]
+    private RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    private ElementRef ARef {get;set;}
+
+    [Parameter]
+    private string Placeholder {get;set;}
+
+//    [Parameter]
+//    private BindElement  bind {get;set;}
+
+}

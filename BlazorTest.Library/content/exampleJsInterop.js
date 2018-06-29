@@ -9,5 +9,14 @@ Blazor.registerFunction('BlazorTest.Library.ExampleJsInterop.Prompt', function (
 Blazor.registerFunction('BlazorFocus.FocusElement', function (element) {
     element.focus();
     element.select();
+
+    //動作しない
+    //var f = element;
+    //setTimeout(function (f) {
+    //    f.focus();
+    //    f.select();
+    //}, 100);
 });
+
+
 
