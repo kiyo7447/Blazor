@@ -32,6 +32,10 @@
         <input type="checkbox" bind=IsClientErrorCheck class="form-check-input" />
         <label class="form-check-label" for="exampleCheck1">Client Error Check</label>
     </div>
+
+    <button class="btn btn-primary" onclick="@GetAttribute">属性の取得</button><br />
+
+
 }
 else
 {
@@ -92,7 +96,27 @@ else
         });
     }
 
-    private void OpenModal ()
+    private void GetAttribute()
+    {
+        Attribute[] authors = Attribute.GetCustomAttributes(typeof(Employee), typeof(AuthorAttribute));
+
+        authors.All(a =>
+        {
+            AuthorAttribute aa = a as AuthorAttribute;
+            if (aa != null) {
+                Console.WriteLine($"Affiliation={aa.Affiliation}, Name{aa.Name}");
+            }
+            else
+            {
+                Console.WriteLine($"属性はnullです。");
+
+            }
+            return true;
+        });
+
+    }
+
+    private void OpenModal()
     {
 
         //myModal.modal();

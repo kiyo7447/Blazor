@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlazorTest.Shared.Models
+namespace BlazorTest.Shared
 {
     class Text
     {

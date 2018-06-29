@@ -4,7 +4,8 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-	public class Employee
+    [Author("hogehoge", Affiliation ="fugofugo")]
+    public class Employee
 	{
 		public int Id { get; set; }
 
@@ -60,6 +61,8 @@ namespace BlazorTest.Shared
                 ErrorMessage[nameof(Employee.Code)] = ae.Message;
                 _ret =  false;
             }
+
+            
 
             return _ret;
         }
