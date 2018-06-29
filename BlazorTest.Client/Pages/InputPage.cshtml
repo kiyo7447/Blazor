@@ -35,6 +35,7 @@
 
     <button class="btn btn-primary" onclick="@GetAttribute">属性の取得</button><br />
 
+    <button class="btn btn-primary" onclick="@ExtensionsMethod">拡張メソッド</button><br />
 
 }
 else
@@ -103,7 +104,8 @@ else
         authors.All(a =>
         {
             AuthorAttribute aa = a as AuthorAttribute;
-            if (aa != null) {
+            if (aa != null)
+            {
                 Console.WriteLine($"Affiliation={aa.Affiliation}, Name{aa.Name}");
             }
             else
@@ -116,6 +118,13 @@ else
 
     }
 
+    private void ExtensionsMethod()
+    {
+        string a = "ok";
+
+        Console.WriteLine($"{a.GetHoge("fugofugo")}");
+
+    }
     private void OpenModal()
     {
 

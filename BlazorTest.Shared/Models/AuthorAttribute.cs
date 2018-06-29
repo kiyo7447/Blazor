@@ -12,7 +12,7 @@ namespace BlazorTest.Shared
         public string Affiliation; // 作者所属
         public AuthorAttribute(string name) { _name = name; }
 
-        public string Name { get { return _name; } }
+        public string Name {get { return _name; } }
     }
 
 }
