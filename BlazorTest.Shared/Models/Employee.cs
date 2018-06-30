@@ -5,16 +5,18 @@ using System.Text;
 namespace BlazorTest.Shared
 {
     [Author("hogehoge", Affiliation ="fugofugo")]
-    public class Employee
+    public class Employee : BaseModel
 	{
 		public int Id { get; set; }
 
-        [Field(typeof(EmployeeCode), IsRequire =true)]
+        [PropertyInfo("従業員コード", typeof(EmployeeCode), IsRequired =true)]
         public string Code{ get; set; }
 
+        [PropertyInfo("従業員名", typeof(EmployeeName), IsRequired = true)]
         public string Name { get; set; }
 
-		public DateTime Birthday { get; set; }
+        [PropertyInfo("従業員の誕生日", typeof(Birthday), IsRequired = true)]
+        public DateTime Birthday { get; set; }
 
 		public int Age => DateTime.Now.Year - Birthday.Year;
 
@@ -41,12 +43,7 @@ namespace BlazorTest.Shared
 
         //}
 
-        public Dictionary<string, string> ErrorMessage = new Dictionary<string, string>();
 
-        public bool IsValid()
-        {
-            return ErrorMessage.Count > 0 ? true : false;
-        }
 
         public bool Validation()
         {
@@ -63,10 +60,6 @@ namespace BlazorTest.Shared
                 employeeCode.Validate();
                 Facade.Checker.IsRequire(Code, typeof(EmployeeCode));
 
-                //ex 3
-                Facade.Checker.Validate(this, nameof(Employee.Code));
-                //必須チェックは属性によって指定されている
-
                 //ex 4
                 (new EmployeeCode(Code)).Validate();
                 Facade.Checker.IsRequire(Code, typeof(EmployeeCode));
@@ -78,7 +71,16 @@ namespace BlazorTest.Shared
                 _ret =  false;
             }
 
-            
+            //ex 3
+            Facade.Checker.Validate(this, nameof(Employee.Code));
+            //必須チェックは属性によって指定されている
+
+            Facade.Checker.Validate(this, nameof(Employee.Name));
+
+
+            Facade.Checker.Validate(this, nameof(Employee.Birthday));
+
+            _ret = IsValid();
 
             return _ret;
         }

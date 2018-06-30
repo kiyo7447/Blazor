@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-    public class StoreCode : Code
+    public class StoreCode : CodeProperty
     {
         public StoreCode(string value) : base(value)
         {

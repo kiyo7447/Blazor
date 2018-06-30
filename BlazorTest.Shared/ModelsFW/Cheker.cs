@@ -11,7 +11,7 @@ namespace BlazorTest.Shared
     }
     public class Checker
     {
-        public T GetField<T>(object value) where T : Text
+        public T GetField<T>(object value) where T : TextProperty
         {
 
             if (typeof(T) == typeof(EmployeeCode))
@@ -25,10 +25,30 @@ namespace BlazorTest.Shared
         {
             var propertyInfo = model.GetType().GetProperty(fieldName);
 
+            var propertyInfoAttributes =  propertyInfo.GetCustomAttributes(typeof(PropertyInfoAttribute), false) as PropertyInfoAttribute[];
+
+            if (propertyInfoAttributes != null && propertyInfoAttributes.Length > 0)
+            {
+                //入力チェックを行う
+                var value = propertyInfo.GetValue(model);
+                var proInfo = propertyInfoAttributes[0];
+                var check = (Property)Activator.CreateInstance(proInfo.Type, value.ToString());
+                check.Name = proInfo.Name;
+                check.IsRequired = proInfo.IsRequired;
+
+                try
+                {
+                    check.Validate();
+                }
+                catch(ApplicationException ex)
+                {
+                    var m = model as BaseModel;
+                    if (m == null) throw;
+                    m.ErrorMessage[fieldName] = ex.Message;
+                }
+            }
             //propertyInfo.GetValue()
             //propertyInfo.GetCustomAttributes()
-            
-
         }
 
 
@@ -60,7 +80,7 @@ namespace BlazorTest.Shared
         public void IsRequire(object code, Type type)
         {
             //typeのSuperClassをチェックする方法は？
-            if (type == typeof(Code))
+            if (type == typeof(CodeProperty))
                 if (code.ToString().TrimEnd().Length == 0)
                     throw new ApplicationException($"未入力エラーです。");
         }

@@ -54,6 +54,27 @@ namespace BlazorTest.Server.Controllers
             });
             Debug.WriteLine("サーバの入力チェックを実施しました。");
 
+            //サーバエラーの証拠を入れる。そうしないとどっちで動いていたのかわからない。
+            employees.All(e =>
+            {
+                Dictionary<string, string> em = new Dictionary<string, string>(); 
+                foreach (var (key, value) in e.ErrorMessage)
+                {
+                    em[key] = value + "（サーバチェック）";
+                }
+                e.ErrorMessage = em;
+                //e.ErrorMessage.Keys.All(k =>
+                //{
+                //    e.ErrorMessage[k] = e.ErrorMessage[k] + "（サーバ）";
+                //    return true;
+                //});
+                /*
+                 * System.InvalidOperationException: 'Collection was modified; enumeration operation may not execute.'
+                 */
+                return true;
+            });
+
+
             Thread.Sleep(1300);
 
             return employees;

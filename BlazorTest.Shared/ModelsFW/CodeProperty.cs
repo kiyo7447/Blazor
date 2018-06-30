@@ -4,16 +4,12 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-    public class Text
+    public class CodeProperty : TextProperty
     {
-        public Text(string value)
+        public CodeProperty(string value) : base(value)
         {
 
         }
 
-        public virtual void Validate()
-        {
-
-        }
     }
 }
