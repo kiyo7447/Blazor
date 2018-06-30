@@ -37,6 +37,8 @@
 
     <button class="btn btn-primary" onclick="@ExtensionsMethod">拡張メソッド</button><br />
 
+    <button class="btn btn-primary" onclick="@ActionMethod">Actionメソッド</button><br />
+
 }
 else
 {
@@ -59,6 +61,7 @@ else
         //Console.WriteLine($"Employee Code:{EmpCode}");
 
         //DB以外の入力チェック（クライアント版）
+        Console.WriteLine("クライアントのエラーチェックを実施します");
         if (IsClientErrorCheck == true && employee.Validation() == false)
         {
             if (employee.ErrorMessage.ContainsKey(nameof(employee.Code)))
@@ -68,6 +71,7 @@ else
             }
             throw new NotImplementedException("未実装");
         }
+        Console.WriteLine("クライアントのエラーチェックを実施しました");
 
         //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
         //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
@@ -118,6 +122,18 @@ else
 
     }
 
+    private void ActionMethod ()
+    {
+        Action<string> hoge = (s) =>
+        {
+            Console.WriteLine($"s={s}");
+
+        };
+
+        hoge("ok");
+
+    }
+
     private void ExtensionsMethod()
     {
         string a = "ok";
@@ -125,6 +141,9 @@ else
         Console.WriteLine($"{a.GetHoge("fugofugo")}");
 
     }
+
+
+
     private void OpenModal()
     {
 
@@ -133,7 +152,7 @@ else
 
     protected override void OnAfterRender()
     {
-        Console.Out.WriteLine($"OnAfterRender()");
+        //Console.Out.WriteLine($"OnAfterRender()");
         base.OnAfterRender();
     }
 
@@ -147,7 +166,7 @@ else
         //if (_inpEmpoyeeCode.Equals(_focusElement)) _inpEmpoyeeCode.Focus();
         //_inpEmpoyeeCode.Focus();
         //_inpEmpoyeeCode = _btnSave;
-        Console.Out.WriteLine($"OnAfterRenderAsync()");
+        //Console.Out.WriteLine($"OnAfterRenderAsync()");
         return base.OnAfterRenderAsync();
     }
 }

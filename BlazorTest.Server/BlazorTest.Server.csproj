@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorTest.Client\BlazorTest.Client.csproj" />
+    <ProjectReference Include="..\BlazorTest.Pages\BlazorTest.Pages.csproj" />
   </ItemGroup>
 
 </Project>

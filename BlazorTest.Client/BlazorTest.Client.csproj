@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorTest.Library\BlazorTest.Library.csproj" />
+    <ProjectReference Include="..\BlazorTest.Pages\BlazorTest.Pages.csproj" />
     <ProjectReference Include="..\BlazorTest.Shared\BlazorTest.Shared.csproj" />
   </ItemGroup>
 
@@ -21,6 +22,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Pages\InputPage.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\LibTest.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Pages\Twoway.cshtml">

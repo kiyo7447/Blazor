@@ -44,7 +44,10 @@ namespace BlazorTest.Server
                 routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}");
             });
 
+            //app.UseBlazor<Pages.Program>();
+
             app.UseBlazor<Client.Program>();
+
         }
     }
 }

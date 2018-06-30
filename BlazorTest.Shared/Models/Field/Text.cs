@@ -4,7 +4,16 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-    class Text
+    public class Text
     {
+        public Text(string value)
+        {
+
+        }
+
+        public virtual void Validate()
+        {
+
+        }
     }
 }

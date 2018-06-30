@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTest.Server", "Blazor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTest.Library", "BlazorTest.Library\BlazorTest.Library.csproj", "{207D5D2C-FA0F-44DA-A909-C27C5418B18F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTest.Pages", "BlazorTest.Pages\BlazorTest.Pages.csproj", "{CFC93892-F360-4340-988B-96ED00C4769A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{207D5D2C-FA0F-44DA-A909-C27C5418B18F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{207D5D2C-FA0F-44DA-A909-C27C5418B18F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{207D5D2C-FA0F-44DA-A909-C27C5418B18F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFC93892-F360-4340-988B-96ED00C4769A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFC93892-F360-4340-988B-96ED00C4769A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFC93892-F360-4340-988B-96ED00C4769A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFC93892-F360-4340-988B-96ED00C4769A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

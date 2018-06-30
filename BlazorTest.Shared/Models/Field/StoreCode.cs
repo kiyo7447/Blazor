@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-    public class EmployeeCode : Code
+    public class StoreCode : Code
     {
-        public EmployeeCode(string value) : base(value)
+        public StoreCode(string value) : base(value)
         {
 
         }

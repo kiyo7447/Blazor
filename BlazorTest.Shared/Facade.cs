@@ -19,18 +19,18 @@ namespace BlazorTest.Shared
     }
 
 
-	public class Checker
-	{
-		CodeChecker _code = null;
-		public CodeChecker Code
-		{
-			get
-			{
-				if (_code == null) _code = new CodeChecker();
-				return _code;
-			}
-		}
-	}
+	//public class Checker
+	//{
+	//	Checker _code = null;
+	//	public Checker Code
+	//	{
+	//		get
+	//		{
+	//			if (_code == null) _code = new Checker();
+	//			return _code;
+	//		}
+	//	}
+	//}
 
 
 }

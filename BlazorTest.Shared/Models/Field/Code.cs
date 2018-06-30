@@ -4,7 +4,12 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-    class Code : Text
+    public class Code : Text
     {
+        public Code(string value) : base(value)
+        {
+
+        }
+
     }
 }

@@ -46,11 +46,13 @@ namespace BlazorTest.Server.Controllers
             });
 #if true
             //DB以外の入力チェック（サーバ版）
+            Debug.WriteLine("サーバの入力チェックを実施します。");
             employees.All(e => {
                 e.ErrorMessage.Clear();
                 e.Validation();
                 return true;
             });
+            Debug.WriteLine("サーバの入力チェックを実施しました。");
 
             Thread.Sleep(1300);
 

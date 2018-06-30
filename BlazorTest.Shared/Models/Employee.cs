@@ -9,6 +9,7 @@ namespace BlazorTest.Shared
 	{
 		public int Id { get; set; }
 
+        [Field(typeof(EmployeeCode), IsRequire =true)]
         public string Code{ get; set; }
 
         public string Name { get; set; }
@@ -53,8 +54,23 @@ namespace BlazorTest.Shared
             bool _ret = true;
             try
             {
-                Facade.Checker.Code.IsRequire(Code, CodeEnum.EmployeeCode);
-                Code = Facade.Checker.Code.Check(Code, CodeEnum.EmployeeCode);
+                //ex 1
+                Code = Facade.Checker.Check(Code, typeof(EmployeeCode));
+                Facade.Checker.IsRequire(Code, typeof(EmployeeCode));
+
+                //ex 2
+                var employeeCode = Facade.Checker.GetField<EmployeeCode>(Code);
+                employeeCode.Validate();
+                Facade.Checker.IsRequire(Code, typeof(EmployeeCode));
+
+                //ex 3
+                Facade.Checker.Validate(this, nameof(Employee.Code));
+                //必須チェックは属性によって指定されている
+
+                //ex 4
+                (new EmployeeCode(Code)).Validate();
+                Facade.Checker.IsRequire(Code, typeof(EmployeeCode));
+
             }
             catch (ApplicationException ae)
             {
