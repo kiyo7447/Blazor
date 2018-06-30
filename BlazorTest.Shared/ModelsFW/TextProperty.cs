@@ -20,6 +20,7 @@ namespace BlazorTest.Shared
 
         public override void Validate()
         {
+            Console.WriteLine($"check Text Validate() MaxLength={MaxLength}, InputValue={InputValue}");
             if (MaxLength != 0 && InputValue.Length > MaxLength)
                 throw new ApplicationException($"{Name}は、最大入力桁数を超えています。入力内容={InputValue}, 最大入力桁数={MaxLength}");
 

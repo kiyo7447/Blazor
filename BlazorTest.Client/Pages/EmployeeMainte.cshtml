@@ -1,0 +1,127 @@
+﻿@using BlazorTest.Shared
+@using BlazorTest.Library
+@page "/employee"
+@page "/employee/{code}"
+@inject HttpClient Http
+
+<h1>従業員メンテ（Exsample）</h1>
+<p>2020の未来のアプリケーション風に作ってみました。</p>
+課題は、コントロール化、エラーメッセージ出力の効率化、etc
+@if (IsServerProc == false)
+{
+<div class="form-group row">
+    <label for="" class="col-sm-2 col-form-label">従業員コード</label>
+    <div class="col-sm-10">
+        <input type="text" bind=employee.Code ref="_inpEmpoyeeCode" class=" form-control" placeholder="数字６桁" />
+    </div>
+    @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Code)))
+    {
+    <div class="col-sm-12 alert alert-danger">
+        <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Code)]
+    </div>
+    }
+</div>
+<div class="form-group row">
+    <label for="" class="col-sm-2 col-form-label">従業員名</label>
+    <div class="col-sm-10">
+        <input type="text" bind=employee.Name ref="_inpEmpoyeeName" class=" form-control" placeholder="最大１０桁" />
+    </div>
+    @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Name)))
+    {
+    <div class="col-sm-12 alert alert-danger">
+        <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Name)]
+    </div>
+    }
+</div>
+<div class="form-group row">
+    <label for="" class="col-sm-2 col-form-label">誕生日</label>
+    <div class="col-sm-10">
+        <input type="date" bind=employee.Birthday ref="_inpBirthday" class=" form-control" placeholder="ほげほげ" />
+    </div>
+    @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Birthday)))
+    {
+    <div class="col-sm-12 alert alert-danger">
+        <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Birthday)]
+    </div>
+    }
+</div>
+
+<br />
+@employee.Name<br />
+<button class="btn btn-primary" onclick="@UpdateEmployee" ref="_btnSave">更新</button><br />
+
+<div class="form-check">
+    <input type="checkbox" bind=IsClientErrorCheck class="form-check-input" />
+    <label class="form-check-label" for="exampleCheck1">Client Error Check</label>
+</div>
+
+}
+else
+{
+<div>
+    Server Processing...<br />
+    <img src="../tenor.gif" />
+</div>
+}
+
+
+@functions  {
+    ElementRef _inpEmpoyeeCode;
+    ElementRef _inpEmpoyeeName;
+    ElementRef _inpBirthday;
+
+    ElementRef _btnSave;
+    Employee employee = new Employee() { Id = 6, Code = "000006", Name = "hogehoge", Birthday = new DateTime(2011, 1, 17) };
+    bool IsServerProc = false;
+    bool IsClientErrorCheck = true;
+
+    async Task UpdateEmployee()
+    {
+        //Console.WriteLine($"Employee Code:{EmpCode}");
+
+        //DB以外の入力チェック（クライアント版）
+
+        Console.WriteLine("クライアントのエラーチェックを実施します");
+        if (IsClientErrorCheck == true && employee.Validation() == false)
+        {
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.Code)))
+            {
+                _inpEmpoyeeCode.Focus();
+                return;
+            }
+            throw new NotImplementedException("未実装");
+        }
+
+        Console.WriteLine("クライアントのエラーチェックを実施しました");
+
+        //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
+        //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+        //employee.ErrorMessage["test"] = "エラーメッセージです。";
+        List<Employee> employees = new List<Employee>() { employee, employee };
+
+        IsServerProc = true;
+        var ret = await Http.PostJsonAsync<IEnumerable<Employee>>("api/Employees/Update", employees);
+        IsServerProc = false;
+
+        //_focusElement = _inpEmpoyeeCode;
+
+        //_inpEmpoyeeCode.Focus();
+
+        Console.WriteLine($"更新結果：{ret.Count()}");
+        ret.All(e =>
+        {
+            Console.WriteLine($"Id:{e.Id}, Code:{e.Code}, Name:{e.Name}, Birthday:{e.Birthday}, Age:{e.Age}");
+            Console.WriteLine($"e.HasError():{e.IsValid()}");
+            e.ErrorMessage.All(d =>
+            {
+                Console.WriteLine($"key:{d.Key}, ErrorMessage:{d.Value}");
+                return true;
+            });
+            employee = e;
+            return false;
+        });
+
+        //        employee = ret[0];
+    }
+}

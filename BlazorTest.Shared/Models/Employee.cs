@@ -79,7 +79,7 @@ namespace BlazorTest.Shared
 
 
             Facade.Checker.Validate(this, nameof(Employee.Birthday));
-
+            Console.WriteLine($"f")dfsdfsd;
             _ret = IsValid();
 
             return _ret;

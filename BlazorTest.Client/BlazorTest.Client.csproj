@@ -21,6 +21,9 @@
     <Content Update="Pages\AInput.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Pages\EmployeeMainte.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\InputPage.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
