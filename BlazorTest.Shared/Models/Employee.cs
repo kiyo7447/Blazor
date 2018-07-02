@@ -76,7 +76,12 @@ namespace BlazorTest.Shared
 
 
             //名前をチェック
-            Facade.Checker.Validate(this, nameof(Employee.Name));
+            if (Facade.Checker.Validate(this, nameof(Employee.Name)))
+            {
+                //TODO:サーバのみ動作させる
+                //Console.WriteLine(Encoding.GetEncoding("Shift_JIS").GetByteCount(Name));
+
+            }
 
             //誕生日チェック
             Facade.Checker.Validate(this, nameof(Employee.InpBirthday));
