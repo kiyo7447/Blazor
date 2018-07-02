@@ -24,8 +24,9 @@ namespace BlazorTest.Shared
 #endif
         }
 
-        public void Validate(object model, string fieldName)
+        public bool Validate(object model, string fieldName)
         {
+            bool retValid = true;
             var propertyInfo = model.GetType().GetProperty(fieldName);
             var propertyInfoAttributes = propertyInfo.GetCustomAttributes(typeof(PropertyInfoAttribute), false) as PropertyInfoAttribute[];
             if (propertyInfoAttributes != null && propertyInfoAttributes.Length > 0)
@@ -71,7 +72,13 @@ namespace BlazorTest.Shared
                     var m = model as BaseModel;
                     if (m == null) throw;
                     m.ErrorMessage[fieldName] = ex.Message;
+                    retValid = false;
                 }
+                return retValid;
+            }
+            else
+            {
+                throw new SystemException($"モデルのプロパティにPropertyInfo属性が付加されいません。プロパティ名={fieldName}");
             }
         }
 

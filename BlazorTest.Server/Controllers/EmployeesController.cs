@@ -30,6 +30,21 @@ namespace BlazorTest.Server.Controllers
             });
         }
 
+        //get api/Employee/Get
+        [HttpGet("[action]")]
+        public IEnumerable<Employee> Get()
+        {
+
+            return new Employee[] { new Employee {Id = 1, Code = "000002" } ,new Employee {Id = 2, Code = "000003" } };
+        }
+       
+        //get api/Employee/Get/000001
+        [HttpGet("[action]/{code}")]
+        public Employee Get(string code)
+        {
+            return new Employee {Id = 1,Code = "000001" };
+        }
+
         [HttpPost("[action]")]
         public IEnumerable<Employee> Update([FromBody]IEnumerable<Employee> employees)
         {
@@ -75,7 +90,7 @@ namespace BlazorTest.Server.Controllers
             });
 
 
-            Thread.Sleep(1300);
+            Thread.Sleep(400);
 
             return employees;
 #else

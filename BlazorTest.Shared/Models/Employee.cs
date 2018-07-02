@@ -82,7 +82,11 @@ namespace BlazorTest.Shared
             Facade.Checker.Validate(this, nameof(Employee.InpBirthday));
 
             //年収チェック
-            Facade.Checker.Validate(this, nameof(Employee.InpSalary));
+            if (Facade.Checker.Validate(this, nameof(Employee.InpSalary)))
+            {
+                if (Salary > 3000000)
+                    ErrorMessage[nameof(Employee.InpSalary)] = $"従業員の年収は300万を超えることは許しません。";
+            }            
 
             Console.WriteLine($"IsValid()={IsValid()}");
 
