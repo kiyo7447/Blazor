@@ -6,7 +6,7 @@ namespace BlazorTest.Shared
 {
     public class CodeProperty : TextProperty
     {
-        public CodeProperty(string value, string name = null, bool isRequired = false) : base(value, name , isRequired) { }
+        public CodeProperty(string value) : base(value) { }
         public override string Validate()
         {
             base.Validate();

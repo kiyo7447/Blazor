@@ -6,7 +6,7 @@ namespace BlazorTest.Shared
 {
     public abstract class BaseProperty
     {
-        public BaseProperty(string value, string name = null, bool isRequired = false)
+        public BaseProperty(string value)
         {
             InputValue = value == null ? String.Empty: value;
         }

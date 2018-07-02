@@ -62,8 +62,7 @@ namespace BlazorTest.Shared
             if (name != null) chk.Name = name;
             chk.IsRequired = isRequired;
 
-            chk.Validate();
-            return chk.InputValue;
+            return chk.Validate();
 #if false
             //数値化出来ないものは入力エラー
             if (type == typeof(EmployeeCode))

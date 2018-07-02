@@ -38,24 +38,26 @@ namespace BlazorTest.Shared
                 var employeeCode = Facade.Checker.GetField<EmployeeCode>(Code);
                 employeeCode.Name = "従業員コード";
                 employeeCode.IsRequired = true;
-                var c2 = employeeCode.Validate();
+                var ret = employeeCode.Validate();
                 //本来は書式を返す
-                //Code = c3;
+                //Code = ret;
                 Console.WriteLine("ex1 end");
 
                 Console.WriteLine("ex2 start");
                 //ex.3 ３行バージョン
-                employeeCode = new EmployeeCode(Code, name: "従業員コード", isRequired: true);
-                var c3 = employeeCode.Validate();
+                employeeCode = new EmployeeCode(Code);
+                employeeCode.Name = "従業員コード";
+                employeeCode.IsRequired = true;
+                ret = employeeCode.Validate();
                 //本来は書式を返す
-                //Code = c3;
+                //Code = c2;
                 Console.WriteLine("ex2 end");
 
                 Console.WriteLine("ex3 start");
                 //ex.3 ２行バージョン
-                var c1 = Facade.Checker.Validate(Code, typeof(EmployeeCode), name: "従業員コード", isRequired: true);
+                ret = Facade.Checker.Validate(Code, typeof(EmployeeCode), name: "従業員コード", isRequired: true);
                 //本来は書式を返す
-                //Code = c1;
+                //Code = ret;
                 Console.WriteLine("ex3 end");
 
             }

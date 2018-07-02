@@ -6,7 +6,7 @@ namespace BlazorTest.Shared
 {
     public class EmployeeCode : CodeProperty
     {
-        public EmployeeCode(string value, string name = null, bool isRequired = false) : base(value, name, isRequired)
+        public EmployeeCode(string value) : base(value)
         {
             MaxLength = 6;
         }

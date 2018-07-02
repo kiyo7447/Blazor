@@ -7,7 +7,7 @@ namespace BlazorTest.Shared
     public class TextProperty : BaseProperty
     {
 
-        public TextProperty(string value, string name = null, bool isRequired = false) : base (value, name, isRequired) { InputValue = value; }
+        public TextProperty(string value) : base (value) {}
 
         //public string Text { get; set; } = "";
 
