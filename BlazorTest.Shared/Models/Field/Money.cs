@@ -8,7 +8,7 @@ namespace BlazorTest.Shared
     {
         public Money(string value) : base(value) {
             Format = null;  //既定値
-            PositiveDigit = 14;
+            PositiveDigit = 7;//最大桁数 9,999,999
             DecimalDigit = 0;
         }
     }

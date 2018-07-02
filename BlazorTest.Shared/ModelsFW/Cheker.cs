@@ -43,7 +43,28 @@ namespace BlazorTest.Shared
                 {
                     var ret =  check.Validate();
                     propertyInfo.SetValue(model, ret);
-                    
+                 
+                    if (proInfo.Link != null)
+                    {
+                        var pi = model.GetType().GetProperty(proInfo.Link);
+                        switch (Type.GetTypeCode(pi.PropertyType))
+                        {
+                            case TypeCode.DateTime:
+                                if (ret.TrimEnd().Length != 0 && DateTime.TryParse(ret, out DateTime dt))
+                                    pi.SetValue(model, dt);
+                                break;
+                            case TypeCode.Decimal:
+                                if (ret.TrimEnd().Length != 0 && decimal.TryParse(ret, out decimal d))
+                                    pi.SetValue(model, d);
+                                break;
+                            case TypeCode.Int32:
+                                if (ret.TrimEnd().Length != 0 && int.TryParse(ret, out int i))
+                                    pi.SetValue(model, i);
+                                break;
+                            default:
+                                throw new NotImplementedException($"この機能は実装中です。TypeCode={Type.GetTypeCode(pi.PropertyType)}");
+                        }
+                    }
                 }
                 catch (ApplicationException ex)
                 {

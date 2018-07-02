@@ -8,8 +8,8 @@ namespace BlazorTest.Shared
     {
         public DecimalProperty(string value) : base(value)
         {
-            //このコードは、asmでは動作しない。
-            if (decimal.TryParse(value, out decimal ret)) Decimal = ret;
+            //このコードは、asmでは動作しない。⇒嘘です。動作します。
+            //if (decimal.TryParse(value, out decimal ret)) Decimal = ret;
 
         }
 

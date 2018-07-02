@@ -8,8 +8,8 @@ namespace BlazorTest.Shared
     {
         public DateProperty(string value) : base(value)
         {
-            //このコードは、asmでは動作しない。
-            if (DateTime.TryParse(value, out DateTime ret)) Date = ret;
+            //このコードは、asmでは動作しない。⇒嘘です。動作します。
+            //if (DateTime.TryParse(value, out DateTime ret)) Date = ret;
             // ↓
             //validation()で設定する
             //try
