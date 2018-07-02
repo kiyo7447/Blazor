@@ -16,52 +16,78 @@
     </div>
     @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Code)))
     {
-    <div class="col-sm-12 alert alert-danger">
-        <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Code)]
-    </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10 alert alert-danger">
+            <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Code)]
+        </div>
     }
 </div>
-<div class="form-group row">
-    <label for="" class="col-sm-2 col-form-label">従業員名</label>
-    <div class="col-sm-10">
-        <input type="text" bind=employee.Name ref="_inpEmpoyeeName" class=" form-control" placeholder="最大１０桁" />
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">従業員名</label>
+        <div class="col-sm-10">
+            <input type="text" bind=employee.Name ref="_inpEmpoyeeName" class=" form-control" placeholder="最大１０桁" />
+        </div>
+        @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Name)))
+        {
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10 alert alert-danger">
+                <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Name)]
+            </div>
+        }
     </div>
-    @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Name)))
-    {
-    <div class="col-sm-12 alert alert-danger">
-        <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Name)]
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">誕生日</label>
+        <div class="col-sm-10">
+            <input type="date" bind=employee.InpBirthday ref="_inpBirthday" class=" form-control" placeholder="誕生日" />
+        </div>
+        @if (employee.ErrorMessage.ContainsKey(nameof(Employee.InpBirthday)))
+        {
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10 alert alert-danger">
+                <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.InpBirthday)]
+            </div>
+        }
     </div>
-    }
-</div>
-<div class="form-group row">
-    <label for="" class="col-sm-2 col-form-label">誕生日</label>
-    <div class="col-sm-10">
-        <input type="date" bind=employee.Birthday ref="_inpBirthday" class=" form-control" placeholder="ほげほげ" />
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">年収</label>
+        <div class="col-sm-10">
+            <input type="number" bind=employee.InpSalary ref="_inpSalary" class=" form-control" placeholder="年収" />
+        </div>
+        @if (employee.ErrorMessage.ContainsKey(nameof(Employee.InpSalary)))
+        {
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10 alert alert-danger">
+                <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.InpSalary)]
+            </div>
+        }
     </div>
-    @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Birthday)))
-    {
-    <div class="col-sm-12 alert alert-danger">
-        <strong>エラー：</strong>@employee.ErrorMessage[nameof(Employee.Birthday)]
-    </div>
-    }
-</div>
 
-<br />
-@employee.Name<br />
-<button class="btn btn-primary" onclick="@UpdateEmployee" ref="_btnSave">更新</button><br />
+    <button class="btn btn-primary" onclick="@UpdateEmployee" ref="_btnSave">更新</button>
 
-<div class="form-check">
-    <input type="checkbox" bind=IsClientErrorCheck class="form-check-input" />
-    <label class="form-check-label" for="exampleCheck1">Client Error Check</label>
-</div>
+    <div class="form-check">
+        <input type="checkbox" bind=IsClientErrorCheck class="form-check-input" />
+        <label class="form-check-label" for="exampleCheck1">Client Error Check</label>
+    </div>
+
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">従業員コード</label>
+        <div class="col-sm-10">@employee.Code</div>
+        <label for="" class="col-sm-2 col-form-label">従業員名</label>
+        <div class="col-sm-10">@employee.Name</div>
+        <label for="" class="col-sm-2 col-form-label">誕生日</label>
+        <div class="col-sm-10">@employee.InpBirthday</div>
+        <label for="" class="col-sm-2 col-form-label">年収</label>
+        <div class="col-sm-10">@employee.InpSalary</div>
+    </div>
+
 
 }
 else
 {
-<div>
-    Server Processing...<br />
-    <img src="../tenor.gif" />
-</div>
+    <div>
+        Server Processing...<br />
+        <img src="../tenor.gif" />
+    </div>
 }
 
 
@@ -69,9 +95,10 @@ else
     ElementRef _inpEmpoyeeCode;
     ElementRef _inpEmpoyeeName;
     ElementRef _inpBirthday;
+    ElementRef _inpSalary;
 
     ElementRef _btnSave;
-    Employee employee = new Employee() { Id = 6, Code = "000006", Name = "hogehoge", Birthday = new DateTime(2011, 1, 17) };
+    Employee employee = new Employee() { Id = 6, Code = "000006", Name = "Kiyotaka Abe", InpBirthday = "2011-01-17", InpSalary="3000000" };
     bool IsServerProc = false;
     bool IsClientErrorCheck = true;
 
@@ -84,15 +111,35 @@ else
         Console.WriteLine("クライアントのエラーチェックを実施します");
         if (IsClientErrorCheck == true && employee.Validation() == false)
         {
+            Console.WriteLine("クライアントのエラーチェックを実施し、エラーが発生しました。");
+
+            //サーバエラーの証拠を入れる。そうしないとどっちで動いていたのかわからない。
+            Dictionary<string, string> em = new Dictionary<string, string>();
+            foreach (var dic in employee.ErrorMessage)
+            {
+                em[dic.Key] = dic.Value + "（クライアントチェック）";
+            }
+            employee.ErrorMessage = em;
+
             if (employee.ErrorMessage.ContainsKey(nameof(employee.Code)))
             {
                 _inpEmpoyeeCode.Focus();
                 return;
             }
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.Name)))
+            {
+                _inpEmpoyeeName.Focus();
+                return;
+            }
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.InpBirthday)))
+            {
+                _inpBirthday.Focus();
+                return;
+            }
             throw new NotImplementedException("未実装");
         }
 
-        Console.WriteLine("クライアントのエラーチェックを実施しました");
+        Console.WriteLine("クライアントのエラーチェックを実施し、エラーチェックが成功しました。");
 
         //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
         //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
@@ -105,7 +152,6 @@ else
         IsServerProc = false;
 
         //_focusElement = _inpEmpoyeeCode;
-
         //_inpEmpoyeeCode.Focus();
 
         Console.WriteLine($"更新結果：{ret.Count()}");

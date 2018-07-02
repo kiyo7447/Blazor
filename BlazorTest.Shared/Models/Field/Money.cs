@@ -4,9 +4,13 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-    public class Birthday : DateProperty
+    public class Money : DecimalProperty
     {
-        public Birthday(string value) : base(value) { }
+        public Money(string value) : base(value) {
+            Format = null;  //既定値
+            PositiveDigit = 14;
+            DecimalDigit = 0;
+        }
 
         /// <summary>
         /// 
@@ -15,8 +19,6 @@ namespace BlazorTest.Shared
         public override void Validate()
         {
             base.Validate();
-            if (Date != null && DateTime.Compare(Date.Value, DateTime.Now) > 0)
-                throw new ApplicationException($"{Name}に未来日は入力できません。入力値={this.ToString()}");
         }
     }
 }

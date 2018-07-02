@@ -4,11 +4,11 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-    public abstract class Property
+    public abstract class BaseProperty
     {
-        public Property(string value)
+        public BaseProperty(string value)
         {
-            InputValue = value;
+            InputValue = value == null ? String.Empty: value;
         }
 
         public string InputValue { get; set; } = "";

@@ -13,7 +13,7 @@ namespace BlazorTest.Shared
             if (propertyName != null)
                 return ErrorMessage.ContainsKey(propertyName);
             else
-               return ErrorMessage.Count > 0 ? true : false;
+               return ErrorMessage.Count > 0 ? false : true;
         }
 
     }

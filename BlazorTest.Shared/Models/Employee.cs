@@ -15,10 +15,20 @@ namespace BlazorTest.Shared
         [PropertyInfo("従業員名", typeof(EmployeeName), IsRequired = true)]
         public string Name { get; set; }
 
-        [PropertyInfo("従業員の誕生日", typeof(Birthday), IsRequired = true)]
+        [PropertyInfo("従業員の誕生日", typeof(Birthday), IsRequired = true, Link=nameof(Birthday))]
+        public string InpBirthday { get; set; }
+
         public DateTime Birthday { get; set; }
 
-		public int Age => DateTime.Now.Year - Birthday.Year;
+
+        [PropertyInfo("従業員の年収", typeof(Money), IsRequired = true, Link = nameof(Salary))]
+        public string InpSalary { get; set; }
+
+        public int Salary { get; set; }
+
+
+
+        public int Age => DateTime.Now.Year - Birthday.Year;
 
 
         //public void SetError(string errorMessage)
@@ -72,14 +82,21 @@ namespace BlazorTest.Shared
             }
 
             //ex 3
+            //コードをチェック
             Facade.Checker.Validate(this, nameof(Employee.Code));
             //必須チェックは属性によって指定されている
 
+            //名前をチェック
             Facade.Checker.Validate(this, nameof(Employee.Name));
 
+            //誕生日チェック
+            Facade.Checker.Validate(this, nameof(Employee.InpBirthday));
 
-            Facade.Checker.Validate(this, nameof(Employee.Birthday));
-            Console.WriteLine($"f")dfsdfsd;
+            //年収チェック
+            Facade.Checker.Validate(this, nameof(Employee.InpSalary));
+
+            Console.WriteLine($"IsValid()={IsValid()}");
+
             _ret = IsValid();
 
             return _ret;

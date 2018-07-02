@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlazorTest.Shared
 {
-    public class TextProperty : Property
+    public class TextProperty : BaseProperty
     {
 
         public TextProperty(string value) : base (value) {}

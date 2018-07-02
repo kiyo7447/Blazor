@@ -24,18 +24,18 @@ namespace BlazorTest.Shared
         public void Validate(object model, string fieldName)
         {
             var propertyInfo = model.GetType().GetProperty(fieldName);
-
             var propertyInfoAttributes =  propertyInfo.GetCustomAttributes(typeof(PropertyInfoAttribute), false) as PropertyInfoAttribute[];
-
             if (propertyInfoAttributes != null && propertyInfoAttributes.Length > 0)
             {
                 //入力チェックを行う
                 var value = propertyInfo.GetValue(model);
                 var proInfo = propertyInfoAttributes[0];
-                var check = (Property)Activator.CreateInstance(proInfo.Type, value.ToString());
+                Console.WriteLine("Activator.CreateInstance start");
+                var check = (BaseProperty)Activator.CreateInstance(proInfo.Type, value);
+                Console.WriteLine("Activator.CreateInstance end");
+                if (check == null) throw new SystemException($"入力チェックのインスタンス化に失敗しました。propertyInfo.Type={proInfo.Type}, value={value}");
                 check.Name = proInfo.Name;
                 check.IsRequired = proInfo.IsRequired;
-
                 try
                 {
                     check.Validate();

@@ -18,6 +18,8 @@ namespace BlazorTest.Shared
         public Type Type {get { return _type; } }
 
         public string Name { get { return _name; } }
+
+        public string Link { get; set; }
     }
 
 }

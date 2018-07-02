@@ -10,7 +10,5 @@ namespace BlazorTest.Shared
         {
             MaxLength = 6;
         }
-
-
     }
 }
