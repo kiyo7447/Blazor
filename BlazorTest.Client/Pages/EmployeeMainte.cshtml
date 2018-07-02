@@ -136,6 +136,11 @@ else
                 _inpBirthday.Focus();
                 return;
             }
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.InpSalary)))
+            {
+                _inpSalary.Focus();
+                return;
+            }
             throw new NotImplementedException("未実装");
         }
 
