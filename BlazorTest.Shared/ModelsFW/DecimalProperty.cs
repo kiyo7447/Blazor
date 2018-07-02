@@ -38,14 +38,14 @@ namespace BlazorTest.Shared
             if (IsRequired == true)
             {
                 if (InputValue.TrimEnd().Length == 0)
-                    throw new ApplicationException($"{Name}は必須入力です。入力してください。");
+                    throw new ApplicationException($"{Facade.NilStr("{0}は、", Name)}必須入力です。入力してください。");
             }
             if (InputValue.Length > 0)
 
                 if (decimal.TryParse(InputValue, out decimal ret))
                     Decimal = ret;
                 else
-                    throw new ApplicationException($"{Name}を数値として解釈できませんでした。入力内容={InputValue}");
+                    throw new ApplicationException($"{Facade.NilStr("{0}を", Name)}数値として解釈できませんでした。入力内容={InputValue}");
 
             //TODO:整数桁のチェック
 

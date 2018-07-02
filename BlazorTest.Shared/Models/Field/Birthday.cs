@@ -16,7 +16,7 @@ namespace BlazorTest.Shared
         {
             base.Validate();
             if (Date != null && DateTime.Compare(Date.Value, DateTime.Now) > 0)
-                throw new ApplicationException($"{Name}に未来日は入力できません。入力値={this.ToString()}");
+                throw new ApplicationException($"{Facade.NilStr("{0}に", Name)}未来日は入力できません。入力値={this.ToString()}");
 
             return InputValue;
         }

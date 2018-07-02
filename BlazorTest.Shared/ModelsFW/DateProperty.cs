@@ -47,7 +47,7 @@ namespace BlazorTest.Shared
                 if (DateTime.TryParse(InputValue, out DateTime ret))
                     Date = ret;
                 else
-                    throw new ApplicationException($"{Name}を日付として解釈できませんでした。入力内容={InputValue}");
+                    throw new ApplicationException($"{Facade.NilStr("{0}を", Name)}日付として解釈できませんでした。入力内容={InputValue}");
             return InputValue;
 #if false
             //↓
@@ -57,7 +57,7 @@ namespace BlazorTest.Shared
                 }
                 catch (Exception)
                 {
-                    throw new ApplicationException($"{Name}を日付として解釈できませんでした。入力内容={InputValue}");
+                    throw new ApplicationException($"{{Facade.NilStr("{0}を", Name)}}を日付として解釈できませんでした。入力内容={InputValue}");
                 }
 #endif
         }

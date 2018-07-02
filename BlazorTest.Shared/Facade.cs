@@ -16,21 +16,28 @@ namespace BlazorTest.Shared
 				return _checker;
 			}
 		}
+
+        public static string NilStr(string format,  params string[] param)
+        {
+            if (param.Length == 0) return "";
+            return String.Format(format, param);
+        }
+
     }
 
 
-	//public class Checker
-	//{
-	//	Checker _code = null;
-	//	public Checker Code
-	//	{
-	//		get
-	//		{
-	//			if (_code == null) _code = new Checker();
-	//			return _code;
-	//		}
-	//	}
-	//}
+    //public class Checker
+    //{
+    //	Checker _code = null;
+    //	public Checker Code
+    //	{
+    //		get
+    //		{
+    //			if (_code == null) _code = new Checker();
+    //			return _code;
+    //		}
+    //	}
+    //}
 
 
 }
