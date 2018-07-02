@@ -86,6 +86,10 @@ namespace BlazorTest.Shared
             Facade.Checker.Validate(this, nameof(Employee.Code));
             //必須チェックは属性によって指定されている
 
+            //TODO:サーバ側で動作する場合は、DBのチェックを組み込みたいが、、その判断は？？
+            // if (IsServerf
+
+
             //名前をチェック
             Facade.Checker.Validate(this, nameof(Employee.Name));
 
@@ -96,6 +100,9 @@ namespace BlazorTest.Shared
             Facade.Checker.Validate(this, nameof(Employee.InpSalary));
 
             Console.WriteLine($"IsValid()={IsValid()}");
+
+
+
 
             _ret = IsValid();
 
