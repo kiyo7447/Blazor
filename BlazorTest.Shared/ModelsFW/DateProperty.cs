@@ -33,7 +33,7 @@ namespace BlazorTest.Shared
                 return Date?.ToString(format);
         }
 
-        public override void Validate()
+        public override string Validate()
         {
             Console.WriteLine($"DateProperty Name={Name}, InputValue={(InputValue == null?"null":InputValue)}, Date={(Date == null?"null":Date.Value.ToShortDateString())}");
 
@@ -48,6 +48,7 @@ namespace BlazorTest.Shared
                     Date = ret;
                 else
                     throw new ApplicationException($"{Name}を日付として解釈できませんでした。入力内容={InputValue}");
+            return InputValue;
 #if false
             //↓
             try

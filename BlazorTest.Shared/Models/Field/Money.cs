@@ -11,14 +11,5 @@ namespace BlazorTest.Shared
             PositiveDigit = 14;
             DecimalDigit = 0;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <exception cref="ApplicationException">入力エラー</exception>
-        public override void Validate()
-        {
-            base.Validate();
-        }
     }
 }

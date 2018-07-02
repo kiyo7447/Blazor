@@ -8,12 +8,7 @@ namespace BlazorTest.Shared
     {
         public EmployeeName(string value) : base(value)
         {
-            MaxLength = 50;
-        }
-
-        public override void Validate()
-        {
-            base.Validate();
+            MaxLength = 12;//許されるのは"Kiyotaka Abe"
         }
     }
 }

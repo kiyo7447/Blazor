@@ -8,7 +8,7 @@ namespace BlazorTest.Shared
     {
         public StoreCode(string value) : base(value)
         {
-
+            MaxLength = 4;
         }
     }
 }

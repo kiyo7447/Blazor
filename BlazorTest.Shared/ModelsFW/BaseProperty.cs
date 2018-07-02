@@ -6,14 +6,14 @@ namespace BlazorTest.Shared
 {
     public abstract class BaseProperty
     {
-        public BaseProperty(string value)
+        public BaseProperty(string value, string name = null, bool isRequired = false)
         {
             InputValue = value == null ? String.Empty: value;
         }
 
         public string InputValue { get; set; } = "";
 
-        public abstract void Validate();
+        public abstract string Validate();
 
         public override string ToString() { return base.ToString(); }
 

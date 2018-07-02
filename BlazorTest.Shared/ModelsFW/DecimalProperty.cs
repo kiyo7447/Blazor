@@ -31,9 +31,9 @@ namespace BlazorTest.Shared
                 return Decimal?.ToString(format);
         }
 
-        public override void Validate()
+        public override string Validate()
         {
-            Console.WriteLine($"DecimalProperty Name={Name}, InputValue={(InputValue == null ? "null" : InputValue)}, Date={(Decimal == null ? "null" : this.ToString())}");
+            Console.WriteLine($"DecimalProperty Name={Name}, InputValue={(InputValue == null ? "null" : InputValue)}, Decimal={(Decimal == null ? "null" : this.ToString())}");
 
             if (IsRequired == true)
             {
@@ -53,6 +53,7 @@ namespace BlazorTest.Shared
             //TODO:少数桁のチェック
 
 
+            return InputValue;
         }
     }
 }

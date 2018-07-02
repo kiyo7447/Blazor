@@ -7,7 +7,7 @@ namespace BlazorTest.Shared
     public class TextProperty : BaseProperty
     {
 
-        public TextProperty(string value) : base (value) {}
+        public TextProperty(string value, string name = null, bool isRequired = false) : base (value, name, isRequired) { InputValue = value; }
 
         //public string Text { get; set; } = "";
 
@@ -18,7 +18,7 @@ namespace BlazorTest.Shared
             throw new NotImplementedException();
         }
 
-        public override void Validate()
+        public override string Validate()
         {
             Console.WriteLine($"check Text Validate() MaxLength={MaxLength}, InputValue={InputValue}");
             if (MaxLength != 0 && InputValue.Length > MaxLength)
@@ -30,6 +30,8 @@ namespace BlazorTest.Shared
             //TODO:禁則文字のチェック
 
 
+
+            return InputValue;
         }
     }
 }
