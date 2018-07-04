@@ -17,6 +17,9 @@ namespace BlazorTest.Server
         {
             services.AddMvc();
 
+			//SignalR対応
+			//services.AddSignalR();
+
             services.AddResponseCompression(options =>
             {
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
@@ -39,7 +42,13 @@ namespace BlazorTest.Server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc(routes =>
+			//UseMvcの後で良いかは不明
+			//app.UseSignalR(routes => {
+			//	//使用するClassを登録する
+			//	routes.MapHub<ChatHub>("/chathub");
+			//});
+
+			app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}");
             });

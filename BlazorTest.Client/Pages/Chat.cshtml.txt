@@ -1,0 +1,72 @@
+﻿@using BlazorTest.Shared;
+@using BlazorTest.Library
+@using Microsoft.AspNetCore.Blazor;
+@using Microsoft.AspNetCore.Blazor.Browser.Interop;
+@using Newtonsoft.Json;
+@page "/chat"
+
+@inject HttpClient Http
+
+<p>
+    <input type="text" bind=Msg.name /><br />
+    <input type="text" bind=Msg.message /><br />
+    <button onclick=@発言>はつげん</button><br />
+</p>
+<table class='table'>
+    <thead>
+        <tr>
+            <th>名前</th>
+            <th>発言</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Message in MessageList)
+        {
+            <tr>
+                <td>@Message.name</td>
+                <td>@Message.message</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@functions {
+
+SimpleMessage Msg = new SimpleMessage();
+List<SimpleMessage> MessageList = new List<SimpleMessage>();
+
+public static __Chat myIns;
+
+protected override void OnInit()
+{
+    myIns = this;
+}
+
+// ここはC#内で完結するため日本語メソッド名が利用できました
+protected void 発言()
+{
+    RegisteredFunction.Invoke<bool>("迷信", Msg);
+}
+
+public static bool jusin(string smsg)
+{
+    RegisteredFunction.Invoke<bool>("log", "「jusin」よばれたー");
+    var msg = JsonConvert.DeserializeObject<SimpleMessage>(smsg);
+    myIns.AddMessage(msg);
+    return true;
+}
+
+public void AddMessage(SimpleMessage smsg)
+{
+    // JavaScriptでログ出力
+    RegisteredFunction.Invoke<bool>("log", "「AddMessage」よばれたー");
+    this.MessageList.Add(smsg);
+    // C#でのログ出力を行うと
+    // WASM: 「AddMessage」よばれたー
+    // と出力されます
+    Console.Out.WriteLine("「AddMessage」よばれたー");
+    // 手動での更新通知
+    this.StateHasChanged();
+}
+
+}
