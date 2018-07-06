@@ -1,5 +1,4 @@
 ﻿@using BlazorTest.Shared;
-@*@using BlazorTest.Library*@
 @using Microsoft.AspNetCore.Blazor.Browser.Interop;
 
 @page "/chat"
@@ -30,7 +29,7 @@
 </table>
 
 @functions {
-
+    
     SimpleMessage simpleMessage = new SimpleMessage { Name = "abe", Message = "こんにちは" };
     List<SimpleMessage> MessageList = new List<SimpleMessage>();
 
