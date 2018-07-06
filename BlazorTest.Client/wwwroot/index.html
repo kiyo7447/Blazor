@@ -9,7 +9,9 @@
     <link href="css/site.css" rel="stylesheet" />
 
     <!-- SignalR追加 -->
-<!--    <script type="text/javascript" src="js/signalr.js"></script>-->
+    <script>console.log('signalr.min.js load start');</script>
+    <script type="text/javascript" src="js/signalr.js"></script>
+    <script>console.log('signalr.min.js load end');</script>
 </head>
 <body>
     <app>Loading...</app>
@@ -17,38 +19,3 @@
     <script type="blazor-boot"></script>
 </body>
 </html>
-
-<!--<script>
-    // コネクション作成
-    let connection = new signalR.HubConnection('/chathub');
-
-    // 受信処理
-    connection.on('AddMessage', Msg => {
-        console.log("受信");
-        let AddMessageSMethod = Blazor.platform.findMethod(
-            "SignalBlazorR.Client",
-            "SignalBlazorR.Client.Pages",
-            "Chat",
-            "jusin"
-        );
-        var ts = Blazor.platform.toDotNetString(JSON.stringify(Msg));
-        Blazor.platform.callMethod(AddMessageSMethod, null, [ts]);
-    });
-
-    // 送信処理
-    Blazor.registerFunction("迷信", Msg => {
-        connection.invoke("PostMessage", Msg)
-            .catch(e => console.log(e));
-        return true;
-    });
-
-    // ログ出力
-    Blazor.registerFunction("log", Msg => {
-        console.log(Msg);
-        return true;
-    });
-
-    // 接続開始
-    connection.start().catch(e => console.log(e));
-
-</script>-->

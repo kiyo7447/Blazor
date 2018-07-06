@@ -1,0 +1,90 @@
+﻿@using BlazorTest.Shared;
+@using BlazorTest.Library
+@using Microsoft.AspNetCore.Blazor.Browser.Interop;
+
+@page "/chat"
+
+@inject HttpClient Http
+
+<p>
+    <input type="text" bind=simpleMessage.Name /><br />
+    <input type="text" bind=simpleMessage.Message /><br />
+    <button onclick=@発言>はつげん</button><br />
+</p>
+<table class='table'>
+    <thead>
+        <tr>
+            <th>名前</th>
+            <th>発言</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Message in MessageList)
+        {
+            <tr>
+                <td>@Message.Name</td>
+                <td>@Message.Message</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@functions {
+
+    SimpleMessage simpleMessage = new SimpleMessage { Name = "abe", Message = "こんにちは" };
+    List<SimpleMessage> MessageList = new List<SimpleMessage>();
+
+    public static Chat myIns;
+
+    public static Action<string> addMessage = (msg) => {
+
+    };
+
+    protected override void OnInit()
+    {
+        myIns = (Chat)(object)this;
+    }
+
+    // ここはC#内で完結するため日本語メソッド名が利用できました
+    protected void 発言()
+    {
+        Console.Out.WriteLine("迷信()を呼び出します。");
+        RegisteredFunction.Invoke<bool>("迷信", simpleMessage);
+        Console.Out.WriteLine("迷信()を呼び出しました。");
+    }
+
+    //public static bool jusin(string smsg)
+
+
+    public static bool jusin(string smsg)
+    {
+        RegisteredFunction.Invoke<bool>("log", "「jusin」よばれたー");
+        //Console.Out.WriteLine($"jusin(); smsg.Name={smsg.name}, smsg.Message={smsg.message}");
+
+        Console.WriteLine($"jusin()が呼ばれた。smsg={(smsg == null ? "null" : smsg)}");
+
+        var msg = JsonUtil.Deserialize<SimpleMessage>(smsg);
+        Console.WriteLine($"jusin()が呼ばれた。msg={msg.Name}, message={msg.Message}");
+
+        //myIns.AddMessage(msg);
+        myIns.AddMessage(msg);
+
+        //Console.Out.WriteLine($"smsg={smsg.name}");
+        return true;
+    }
+
+    public void AddMessage(SimpleMessage smsg)
+    {
+        // JavaScriptでログ出力
+        RegisteredFunction.Invoke<bool>("log", "「AddMessage」よばれたー");
+        Console.Out.WriteLine($"AddMessage(); smsg.Name={smsg.Name}, smsg.Message={smsg.Message}");
+        this.MessageList.Add(smsg);
+        // C#でのログ出力を行うと
+        // WASM: 「AddMessage」よばれたー
+        // と出力されます
+        Console.Out.WriteLine("「AddMessage」よばれたー");
+        // 手動での更新通知
+        this.StateHasChanged();
+    }
+
+}

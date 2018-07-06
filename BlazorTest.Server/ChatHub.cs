@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 using BlazorTest.Shared;
+using System.Diagnostics;
 
 namespace BlazorTest.Server
 {
@@ -11,6 +12,7 @@ namespace BlazorTest.Server
     {
 		public Task PostMessage(SimpleMessage msg)
 		{
+			Debug.WriteLine("class:ChatHubのPostMessage()が呼び出されました。");
 			return Clients.All.SendAsync("AddMessage", msg);
 		}
     }
