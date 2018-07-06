@@ -32,10 +32,10 @@ console.log('connection instance end');
 connection.on('AddMessage', Msg => {
     console.log("AddMessage()：受信処理：Msg.name=" + Msg.name + ", Msg.message=" + Msg.message);
     let AddMessageSMethod = Blazor.platform.findMethod(
-        "BlazorTest.Client",
-        "BlazorTest.Client.Pages",
-        "Chat",
-        "jusin"
+        "BlazorTest.Client",                //assambleyName
+        "BlazorTest.Client.Pages",          //namespace
+        "Chat",                             //typeName
+        "jusin"                             //methodName
     );
 //    var ts = Blazor.platform.toDotNetString(Msg);
 //↓オブジェクトを渡すことは出来ない。。。
