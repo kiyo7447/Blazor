@@ -1,5 +1,6 @@
 ﻿@using BlazorTest.Shared
 @using BlazorTest.Library
+@using static BlazorTest.Library.ExampleJsInterop;
 @page "/employee"
 @page "/employee/{code}"
 @inject HttpClient Http
@@ -12,7 +13,7 @@
     <div class="form-group row">
         <label for="" class="col-sm-2 col-form-label">従業員コード</label>
         <div class="col-sm-10">
-            <input type="text" bind=employee.Code ref="_inpEmpoyeeCode" class=" form-control" placeholder="数字６桁" />
+            <input id="employeeCode" type="text" bind=employee.Code ref="_inpEmpoyeeCode" class=" form-control" placeholder="数字６桁" />
         </div>
         @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Code)))
         {
@@ -67,6 +68,7 @@
 
     <button class="btn btn-primary" onclick="@GetAll">全件取得</button>
     <button class="btn btn-primary" onclick="@Get">１件取得</button>
+    <button class="btn btn-primary" onclick="@Focus">フォーカステスト</button>
 
     <div class="form-check">
         <input type="checkbox" bind=IsClientErrorCheck class="form-check-input" />
@@ -99,109 +101,115 @@ else
 
 
 @functions  {
-ElementRef _inpEmpoyeeCode;
-ElementRef _inpEmpoyeeName;
-ElementRef _inpBirthday;
-ElementRef _inpSalary;
+    ElementRef _inpEmpoyeeCode;
+    ElementRef _inpEmpoyeeName;
+    ElementRef _inpBirthday;
+    ElementRef _inpSalary;
 
-ElementRef _btnSave;
-Employee employee = new Employee() { Id = 6, Code = "000006", Name = "Kiyotaka Abe", InpBirthday = "2011-01-17", InpSalary = "3000000" };
-bool IsServerProc = false;
-bool IsClientErrorCheck = true;
+    ElementRef _btnSave;
+    Employee employee = new Employee() { Id = 6, Code = "000006", Name = "Kiyotaka Abe", InpBirthday = "2011-01-17", InpSalary = "3000000" };
+    bool IsServerProc = false;
+    bool IsClientErrorCheck = true;
 
-async Task UpdateEmployee()
-{
-    //Console.WriteLine($"Employee Code:{EmpCode}");
-
-    //DB以外の入力チェック（クライアント版）
-
-
-
-    Console.WriteLine("クライアントのエラーチェックを実施します");
-    if (IsClientErrorCheck == true && employee.Validation() == false)
+    async Task UpdateEmployee()
     {
-        Console.WriteLine("クライアントのエラーチェックを実施し、エラーが発生しました。");
+        //Console.WriteLine($"Employee Code:{EmpCode}");
 
-        //サーバエラーの証拠を入れる。そうしないとどっちで動いていたのかわからない。
-        Dictionary<string, string> em = new Dictionary<string, string>();
-        foreach (var dic in employee.ErrorMessage)
-        {
-            em[dic.Key] = dic.Value + "（クライアントチェック）";
-        }
-        employee.ErrorMessage = em;
+        //DB以外の入力チェック（クライアント版）
 
-        if (employee.ErrorMessage.ContainsKey(nameof(employee.Code)))
+
+
+        Console.WriteLine("クライアントのエラーチェックを実施します");
+        if (IsClientErrorCheck == true && employee.Validation() == false)
         {
-            _inpEmpoyeeCode.Focus();
-            return;
+            Console.WriteLine("クライアントのエラーチェックを実施し、エラーが発生しました。");
+
+            //サーバエラーの証拠を入れる。そうしないとどっちで動いていたのかわからない。
+            Dictionary<string, string> em = new Dictionary<string, string>();
+            foreach (var dic in employee.ErrorMessage)
+            {
+                em[dic.Key] = dic.Value + "（クライアントチェック）";
+            }
+            employee.ErrorMessage = em;
+
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.Code)))
+            {
+                _inpEmpoyeeCode.Focus();
+                return;
+            }
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.Name)))
+            {
+                _inpEmpoyeeName.Focus();
+                return;
+            }
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.InpBirthday)))
+            {
+                _inpBirthday.Focus();
+                return;
+            }
+            if (employee.ErrorMessage.ContainsKey(nameof(employee.InpSalary)))
+            {
+                _inpSalary.Focus();
+                return;
+            }
+            throw new NotImplementedException("未実装");
         }
-        if (employee.ErrorMessage.ContainsKey(nameof(employee.Name)))
+
+        Console.WriteLine("クライアントのエラーチェックを実施し、エラーチェックが成功しました。");
+
+        //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
+        //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+        //employee.ErrorMessage["test"] = "エラーメッセージです。";
+        List<Employee> employees = new List<Employee>() { employee, employee };
+
+        IsServerProc = true;
+        var ret = await Http.PostJsonAsync<IEnumerable<Employee>>("api/Employees/Update", employees);
+        IsServerProc = false;
+
+        //_focusElement = _inpEmpoyeeCode;
+        //_inpEmpoyeeCode.Focus();
+
+        Console.WriteLine($"更新結果：{ret.Count()}");
+        ret.All(e =>
         {
-            _inpEmpoyeeName.Focus();
-            return;
-        }
-        if (employee.ErrorMessage.ContainsKey(nameof(employee.InpBirthday)))
-        {
-            _inpBirthday.Focus();
-            return;
-        }
-        if (employee.ErrorMessage.ContainsKey(nameof(employee.InpSalary)))
-        {
-            _inpSalary.Focus();
-            return;
-        }
-        throw new NotImplementedException("未実装");
+            Console.WriteLine($"Id:{e.Id}, Code:{e.Code}, Name:{e.Name}, Birthday:{e.Birthday}, Age:{e.Age}");
+            Console.WriteLine($"e.HasError():{e.IsValid()}");
+            e.ErrorMessage.All(d =>
+            {
+                Console.WriteLine($"key:{d.Key}, ErrorMessage:{d.Value}");
+                return true;
+            });
+            employee = e;
+            return false;
+        });
+
+        //        employee = ret[0];
     }
-
-    Console.WriteLine("クライアントのエラーチェックを実施し、エラーチェックが成功しました。");
-
-    //var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(employee), System.Text.Encoding.UTF8, "application/json");
-    //        content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-
-    //employee.ErrorMessage["test"] = "エラーメッセージです。";
-    List<Employee> employees = new List<Employee>() { employee, employee };
-
-    IsServerProc = true;
-    var ret = await Http.PostJsonAsync<IEnumerable<Employee>>("api/Employees/Update", employees);
-    IsServerProc = false;
-
-    //_focusElement = _inpEmpoyeeCode;
-    //_inpEmpoyeeCode.Focus();
-
-    Console.WriteLine($"更新結果：{ret.Count()}");
-    ret.All(e =>
+    void ClearEmployee()
     {
-        Console.WriteLine($"Id:{e.Id}, Code:{e.Code}, Name:{e.Name}, Birthday:{e.Birthday}, Age:{e.Age}");
-        Console.WriteLine($"e.HasError():{e.IsValid()}");
-        e.ErrorMessage.All(d =>
+        employee = new Employee { Id = 0, Code = "", Name = "", InpBirthday = "", InpSalary = "" };
+    }
+    async Task Get()
+    {
+        var ret = await Http.GetJsonAsync<Employee>("api/Employees/Get/000001");
+
+        employee = ret;
+    }
+    async Task GetAll()
+    {
+        var ret = await Http.GetJsonAsync<IEnumerable<Employee>>("api/Employees/Get");
+
+        ret.All(e =>
         {
-            Console.WriteLine($"key:{d.Key}, ErrorMessage:{d.Value}");
+            employee = e;
             return true;
         });
-        employee = e;
-        return false;
-    });
+    }
 
-    //        employee = ret[0];
-}
-void ClearEmployee()
-{
-    employee = new Employee { Id = 0, Code = "", Name = "", InpBirthday = "", InpSalary = "" };
-}
-async Task Get()
-{
-    var ret = await Http.GetJsonAsync<Employee>("api/Employees/Get/000001");
-
-    employee = ret;
-}
-async Task GetAll()
-{
-    var ret = await Http.GetJsonAsync<IEnumerable<Employee>>("api/Employees/Get");
-
-    ret.All(e =>
+    void Focus()
     {
-        employee = e;
-        return true;
-    });
-}
+        //これでフォーカスが移動するのでは？
+        SetFocus("employeeCode");
+    }
 }

@@ -7,6 +7,9 @@ Blazor.registerFunction('BlazorTest.Library.ExampleJsInterop.Prompt', function (
     return prompt(message, 'Type anything here');
 });
 
+console.log('Blazor.registerFunction() End');
+
+console.log('Blazor.registerFocus() Start');
 
 Blazor.registerFunction('BlazorFocus.FocusElement', function (element) {
     element.focus();
@@ -20,6 +23,16 @@ Blazor.registerFunction('BlazorFocus.FocusElement', function (element) {
     //}, 100);
 });
 
+
+Blazor.registerFunction('BlazorTest.Library.ExampleJsInterop.Focus', function (id) {
+    var elem = document.getElementById(id);
+    elem.focus();
+});
+
+console.log('Blazor.registerFocus() End');
+
+
+console.log('Blazor.registerChat() Start');
 
 // コネクション作成
 //let connection = new signalR.HubConnection('/chathub');
@@ -61,4 +74,4 @@ Blazor.registerFunction("log", Msg => {
 // 接続開始
 connection.start().catch(e => console.log(e));
 
-console.log('Blazor.registerFunction() End');
+console.log('Blazor.registerChat() End');

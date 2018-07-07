@@ -11,5 +11,11 @@ namespace BlazorTest.Library
                 "BlazorTest.Library.ExampleJsInterop.Prompt",
                 message);
         }
-    }
+
+		public static void SetFocus(string id)
+		{
+			RegisteredFunction.Invoke<string>(
+				"BlazorTest.Library.ExampleJsInterop.Focus",id);
+		}
+	}
 }
