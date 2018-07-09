@@ -100,8 +100,11 @@ namespace BlazorTest.Server.Controllers
 			}
 
 			Debug.WriteLine($"dbEmployee.Name={dbEmployee.Name}");
+			Debug.WriteLine($"dbEmployee.Age={dbEmployee.Age}");
 
-            return employees;
+
+
+			return employees;
 #else
             return Enumerable.Range(1, 3).Select(index => new Employee {
                 Id = index,

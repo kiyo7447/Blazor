@@ -70,6 +70,7 @@
     <button class="btn btn-primary" onclick="@Get">１件取得</button>
     <button class="btn btn-primary" onclick="@Focus">フォーカステスト</button>
     <button class="btn btn-primary" onclick="@_Prompt">Prompt</button>
+    <button class="btn btn-primary" onclick="@_Confirm" >Confirm</button>
 
     <div class="form-check">
         <input type="checkbox" bind=IsClientErrorCheck class="form-check-input" />
@@ -91,8 +92,10 @@
         <div class="col-sm-10">@employee.Salary</div>
     </div>
     <div class="form-group row">
-        <label for="" class="col-sm-2 col-form-label">メッセージ</label>
-        <div class="col-sm-10">@_message</div>
+        <label for="" class="col-sm-2 col-form-label">メッセージ（Prompt）</label>
+        <div class="col-sm-10">@_messagePrompt</div>
+        <label for="" class="col-sm-2 col-form-label">メッセージ（Confirm）</label>
+        <div class="col-sm-10">@(_retConfirm == true ? "OK" : "キャンセル")</div>
     </div>
 
 
@@ -116,7 +119,8 @@ else
     ElementRef _btnSave;
     Employee employee = new Employee() { Id = 6, Code = "000006", Name = "Kiyotaka Abe", InpBirthday = "2011-01-17", InpSalary = "3000000" };
 
-    string _message;
+    string _messagePrompt;
+    bool _retConfirm;
 
     bool IsServerProc = false;
     bool IsClientErrorCheck = true;
@@ -226,6 +230,18 @@ else
 
     void _Prompt()
     {
-        _message = Prompt("ほげほげ");
+        //ユーザに入力させる
+        _messagePrompt = Prompt("ほげほげとは何ですか？");
     }
+
+    void _Confirm()
+    {
+        //ユーザに入力させる
+        _retConfirm = Confirm("ほげほげですか？");
+        if (_retConfirm == true)
+            Console.Out.WriteLine("OKを押下");
+        else
+            Console.Out.WriteLine("ｷｬﾝｾﾙを押下");
+    }
+
 }

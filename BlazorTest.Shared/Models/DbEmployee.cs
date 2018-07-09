@@ -6,8 +6,9 @@ namespace BlazorTest.Shared
 {
 	public class DbEmployee
 	{
+
 		public string Name { get; set; }
 
-		public int Age;
+		public int Age { get; set; }
 	}
 }

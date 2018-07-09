@@ -6,30 +6,32 @@
 @inject HttpClient Http
 
 <p>
-    <input type="text" bind=simpleMessage.Name /><br />
-    <input type="text" bind=simpleMessage.Message /><br />
-    <button onclick=@発言>はつげん</button><br />
+    <input type="text" bind=simpleMessage.Name class=" form-control"/><br />
+    <input type="text" bind=simpleMessage.Message class=" form-control"/><br />
+    <button class="btn btn-primary" onclick=@発言>はつげん</button><br />
 </p>
 <table class='table'>
     <thead>
         <tr>
+            <th>時刻</th>
             <th>名前</th>
             <th>発言</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var Message in MessageList)
+        @foreach (var Message in MessageList.Reverse<SimpleMessage>())
         {
-            <tr>
-                <td>@Message.Name</td>
-                <td>@Message.Message</td>
-            </tr>
+        <tr>
+            <td>@Message.DateTime.ToString("HH:mm:ss")</td>
+            <td>@Message.Name</td>
+            <td>@Message.Message</td>
+        </tr>
         }
     </tbody>
 </table>
 
 @functions {
-    
+
     SimpleMessage simpleMessage = new SimpleMessage { Name = "abe", Message = "こんにちは" };
     List<SimpleMessage> MessageList = new List<SimpleMessage>();
 
@@ -47,7 +49,8 @@
     // ここはC#内で完結するため日本語メソッド名が利用できました
     protected void 発言()
     {
-        Console.Out.WriteLine("迷信()を呼び出します。");
+        simpleMessage.DateTime = DateTime.Now;
+        Console.Out.WriteLine($"迷信()を呼び出します。DateTime={simpleMessage.DateTime}");
         RegisteredFunction.Invoke<bool>("迷信", simpleMessage);
         Console.Out.WriteLine("迷信()を呼び出しました。");
     }

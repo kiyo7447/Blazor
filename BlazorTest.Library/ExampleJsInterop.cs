@@ -12,6 +12,13 @@ namespace BlazorTest.Library
                 message);
         }
 
+		public static bool Confirm(string message)
+		{
+			return RegisteredFunction.Invoke<bool>(
+				"BlazorTest.Library.ExampleJsInterop.Confirm",
+				message);
+		}
+
 		public static void SetFocus(string id)
 		{
 			RegisteredFunction.Invoke<string>(

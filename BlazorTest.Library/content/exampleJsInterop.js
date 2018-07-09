@@ -7,6 +7,10 @@ Blazor.registerFunction('BlazorTest.Library.ExampleJsInterop.Prompt', function (
     return prompt(message, 'Type anything here');
 });
 
+Blazor.registerFunction('BlazorTest.Library.ExampleJsInterop.Confirm', function (message) {
+    return confirm(message);
+});
+
 console.log('Blazor.registerFunction() End');
 
 console.log('Blazor.registerFocus() Start');
