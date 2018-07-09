@@ -32,20 +32,14 @@ namespace BlazorTest.Shared
 
 			Func<PropertyInfo[], string, PropertyInfo> GetProperty = (PropertyInfo[] targetsProperty, string name) => {
 				foreach (var pro in targetsProperty)
-				{
 					if (pro.Name == name)
-					{
 						return pro;
-					}
-				}
 				return null;
 			};
-
 
 			foreach(var toPro in toProperties)
 			{
 				var fromPro = GetProperty(fromProperties, toPro.Name);
-
 				if (fromPro != null)
 				{
 					var fromValue = fromPro.GetValue(from);
