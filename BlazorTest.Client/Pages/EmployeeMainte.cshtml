@@ -69,6 +69,7 @@
     <button class="btn btn-primary" onclick="@GetAll">全件取得</button>
     <button class="btn btn-primary" onclick="@Get">１件取得</button>
     <button class="btn btn-primary" onclick="@Focus">フォーカステスト</button>
+    <button class="btn btn-primary" onclick="@_Prompt">Prompt</button>
 
     <div class="form-check">
         <input type="checkbox" bind=IsClientErrorCheck class="form-check-input" />
@@ -89,6 +90,12 @@
         <label for="" class="col-sm-2 col-form-label">年収</label>
         <div class="col-sm-10">@employee.Salary</div>
     </div>
+    <div class="form-group row">
+        <label for="" class="col-sm-2 col-form-label">メッセージ</label>
+        <div class="col-sm-10">@_message</div>
+    </div>
+
+
 }
 else
 {
@@ -108,6 +115,9 @@ else
 
     ElementRef _btnSave;
     Employee employee = new Employee() { Id = 6, Code = "000006", Name = "Kiyotaka Abe", InpBirthday = "2011-01-17", InpSalary = "3000000" };
+
+    string _message;
+
     bool IsServerProc = false;
     bool IsClientErrorCheck = true;
 
@@ -198,8 +208,9 @@ else
     }
     async Task GetAll()
     {
+        IsServerProc = true;
         var ret = await Http.GetJsonAsync<IEnumerable<Employee>>("api/Employees/Get");
-
+        IsServerProc = false;
         ret.All(e =>
         {
             employee = e;
@@ -211,5 +222,10 @@ else
     {
         //これでフォーカスが移動するのでは？
         SetFocus("employeeCode");
+    }
+
+    void _Prompt()
+    {
+        _message = Prompt("ほげほげ");
     }
 }

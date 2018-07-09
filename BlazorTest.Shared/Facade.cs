@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace BlazorTest.Shared
@@ -22,6 +23,41 @@ namespace BlazorTest.Shared
             if (param.Length == 0) return "";
             return String.Format(format, param);
         }
+
+		public static object ObjectCopy(object from, object to)
+		{
+			var fromProperties = from.GetType().GetProperties();
+			var toProperties = to.GetType().GetProperties();
+			var toFields = to.GetType().GetFields();
+
+			Func<PropertyInfo[], string, PropertyInfo> GetProperty = (PropertyInfo[] targetsProperty, string name) => {
+				foreach (var pro in targetsProperty)
+				{
+					if (pro.Name == name)
+					{
+						return pro;
+					}
+				}
+				return null;
+			};
+
+
+			foreach(var toPro in toProperties)
+			{
+				var fromPro = GetProperty(fromProperties, toPro.Name);
+
+				if (fromPro != null)
+				{
+					var fromValue = fromPro.GetValue(from);
+					toPro.SetValue(to, fromValue);
+				}
+				else
+				{
+					//コピーしない
+				}
+			}
+			return to;
+		}
 
     }
 

@@ -34,7 +34,7 @@ namespace BlazorTest.Server.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Employee> Get()
         {
-
+			Thread.Sleep(1000);
             return new Employee[] { new Employee {Id = 1, Code = "000002" } ,new Employee {Id = 2, Code = "000003" } };
         }
        
@@ -91,6 +91,15 @@ namespace BlazorTest.Server.Controllers
 
 
             Thread.Sleep(400);
+
+			var dbEmployee = new DbEmployee();
+			var fromEmp = employees.FirstOrDefault<Employee>();
+			if (fromEmp.IsValid())
+			{
+				Facade.ObjectCopy(fromEmp, dbEmployee);
+			}
+
+			Debug.WriteLine($"dbEmployee.Name={dbEmployee.Name}");
 
             return employees;
 #else
