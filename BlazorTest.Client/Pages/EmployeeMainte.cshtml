@@ -13,7 +13,7 @@
     <div class="form-group row">
         <label for="" class="col-sm-2 col-form-label">従業員コード</label>
         <div class="col-sm-10">
-            <input id="employeeCode" type="text" bind=employee.Code ref="_inpEmpoyeeCode" class=" form-control" placeholder="数字６桁" />
+            <input id="employeeCode" type="text" bind=employee.Code ref="_inpEmpoyeeCode" class=" form-control" placeholder="数字６桁" onkeydown="@keydownEmployeeCode" onblur="@onblurEmployeeCode"/>
         </div>
         @if (employee.ErrorMessage.ContainsKey(nameof(Employee.Code)))
         {
@@ -244,4 +244,14 @@ else
             Console.Out.WriteLine("ｷｬﾝｾﾙを押下");
     }
 
+    void keydownEmployeeCode(UIKeyboardEventArgs e)
+    {
+        Console.Out.WriteLine($"Key={e.Key}");
+
+    }
+    void onblurEmployeeCode()
+    {
+        Console.Out.WriteLine("onblur EmloyeeCode");
+
+    }
 }
