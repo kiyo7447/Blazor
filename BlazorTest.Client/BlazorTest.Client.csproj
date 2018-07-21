@@ -21,6 +21,9 @@
     <Content Update="Pages\AInput.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Pages\Geolocation.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\Chat.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

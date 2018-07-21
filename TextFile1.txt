@@ -1,0 +1,33 @@
+
+１）全角半角の変換
+	.NET Coreのやり方
+	WebAssemblyで動作するのか？
+
+２）.NET CoreのILファイルを必要なときに読み込む対応（MEFのような機構）
+
+３）ShiftJIS長の制御
+	.NET CoreのShiftJIS対応
+	https://tnakamura.hatenablog.com/entry/2017/08/08/shift-jis-on-dotnet-core
+
+	WebAssemblyでの対応指針
+
+４）処理がどこで動いているかを取得する方法
+
+	１．実行環境、Debug環境
+		Debugger.IsAttachedで判定する。
+
+	２．WebAssembly、サーバサイド
+		？？
+
+５）Progressive Web Apps（WPA）対応モジュール
+
+	Service Workers＞Notification API
+
+
+６）
+
+
+
+
+
+
