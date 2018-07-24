@@ -16,13 +16,13 @@ namespace BlazorTest.Shared
         public string Name { get; set; }
 
         [PropertyInfo("従業員の誕生日", typeof(Birthday), IsRequired = true, Link = nameof(Birthday))]
-        public string InpBirthday { get; set; }
+        public string BirthdayText { get; set; }
 
         public DateTime Birthday { get; set; }
 
 
         [PropertyInfo("従業員の年収", typeof(Money), IsRequired = true, Link = nameof(Salary))]
-        public string InpSalary { get; set; }
+        public string SalaryText { get; set; }
 
         public int Salary { get; set; }
 
@@ -84,13 +84,13 @@ namespace BlazorTest.Shared
             }
 
             //誕生日チェック
-            Facade.Checker.Validate(this, nameof(Employee.InpBirthday));
+            Facade.Checker.Validate(this, nameof(Employee.BirthdayText));
 
             //年収チェック
-            if (Facade.Checker.Validate(this, nameof(Employee.InpSalary)))
+            if (Facade.Checker.Validate(this, nameof(Employee.SalaryText)))
             {
                 if (Salary > 4000000)
-                    ErrorMessage[nameof(Employee.InpSalary)] = $"従業員の年収は400万を超えることは許しません。";
+                    ErrorMessage[nameof(Employee.SalaryText)] = $"従業員の年収は400万を超えることは許しません。";
             }            
 
             Console.WriteLine($"IsValid()={IsValid()}");

@@ -26,7 +26,7 @@ namespace BlazorTest.ConsoleApps
 		{
 			Console.WriteLine("Hello World!");
 
-			Employee emp = new Employee { Code = "6", Name = "abe kiyotaka", InpBirthday = "2011/01/17", InpSalary = "3000000" };
+			Employee emp = new Employee { Code = "6", Name = "abe kiyotaka", BirthdayText = "2011/01/17", SalaryText = "3000000" };
 
 			if (emp.Validation())
 			{
