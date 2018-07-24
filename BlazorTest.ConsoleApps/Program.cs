@@ -7,6 +7,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace BlazorTest.ConsoleApps
 {
@@ -49,7 +50,9 @@ namespace BlazorTest.ConsoleApps
 					client.BaseAddress = new Uri("http://localhost:40294/");
 					client.DefaultRequestHeaders.Accept.Clear();
 					client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+					//var context = JsonConvert.SerializeObject(emps);
 					var ret = await client.PostAsJsonAsync<List<Employee>>("api/Employee/Update", emps);
+
 
 					Console.Out.WriteLine($"{ret}");
 #endif
