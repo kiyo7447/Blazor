@@ -24,7 +24,13 @@
 	Service Workers＞Notification API
 
 
-６）
+６）バッチ処理でWebServiceを呼び出すことが出来ない。
+
+７）Blazorのコンポーネントで動作させたい
+
+８）
+
+
 
 
 
