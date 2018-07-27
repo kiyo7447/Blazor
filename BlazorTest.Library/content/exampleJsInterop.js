@@ -31,6 +31,7 @@ Blazor.registerFunction('BlazorFocus.FocusElement', function (element) {
 Blazor.registerFunction('BlazorTest.Library.ExampleJsInterop.Focus', function (id) {
     var elem = document.getElementById(id);
     elem.focus();
+    elem.select();
 });
 
 console.log('Blazor.registerFocus() End');
