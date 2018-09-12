@@ -1,5 +1,5 @@
 ﻿@using BlazorTest.Shared;
-@using Microsoft.AspNetCore.Blazor.Browser.Interop;
+@using Microsoft.JSInterop;
 
 @page "/chat"
 
@@ -51,7 +51,7 @@
     {
         simpleMessage.DateTime = DateTime.Now;
         Console.Out.WriteLine($"迷信()を呼び出します。DateTime={simpleMessage.DateTime}");
-        RegisteredFunction.Invoke<bool>("迷信", simpleMessage);
+        JSRuntime.Current.InvokeAsync<bool>("迷信", simpleMessage);
         Console.Out.WriteLine("迷信()を呼び出しました。");
     }
 
@@ -60,12 +60,12 @@
 
     public static bool jusin(string smsg)
     {
-        RegisteredFunction.Invoke<bool>("log", "「jusin」よばれたー");
+        JSRuntime.Current.InvokeAsync<bool>("log", "「jusin」よばれたー");
         //Console.Out.WriteLine($"jusin(); smsg.Name={smsg.name}, smsg.Message={smsg.message}");
 
         Console.WriteLine($"jusin()が呼ばれた。smsg={(smsg == null ? "null" : smsg)}");
 
-        var msg = JsonUtil.Deserialize<SimpleMessage>(smsg);
+        var msg = Json.Deserialize<SimpleMessage>(smsg);
         Console.WriteLine($"jusin()が呼ばれた。msg={msg.Name}, message={msg.Message}");
 
         //myIns.AddMessage(msg);
@@ -78,7 +78,7 @@
     public void AddMessage(SimpleMessage smsg)
     {
         // JavaScriptでログ出力
-        RegisteredFunction.Invoke<bool>("log", "「AddMessage」よばれたー");
+        JSRuntime.Current.InvokeAsync<bool>("log", "「AddMessage」よばれたー");
         Console.Out.WriteLine($"AddMessage(); smsg.Name={smsg.Name}, smsg.Message={smsg.Message}");
         this.MessageList.Add(smsg);
         // C#でのログ出力を行うと

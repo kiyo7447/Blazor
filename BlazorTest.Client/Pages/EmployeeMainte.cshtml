@@ -228,16 +228,16 @@ else
         SetFocus("employeeCode");
     }
 
-    void _Prompt()
+    async void _Prompt()
     {
         //ユーザに入力させる
-        _messagePrompt = Prompt("ほげほげとは何ですか？");
+        _messagePrompt = await Prompt("ほげほげとは何ですか？");
     }
 
-    void _Confirm()
+    async void _Confirm()
     {
         //ユーザに入力させる
-        _retConfirm = Confirm("ほげほげですか？");
+        _retConfirm = await Confirm("ほげほげですか？");
         if (_retConfirm == true)
             Console.Out.WriteLine("OKを押下");
         else

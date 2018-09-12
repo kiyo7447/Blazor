@@ -63,7 +63,9 @@ namespace BlazorTest.ConsoleApps
 				//var ret = await client.GetAsync("");
 
 				//			Microsoft.AspNetCore.Blazor.JsonUtil.Serialize()
-
+				//↓
+				// Json.Serialize()
+				//  を使うといい
 				//new HttpClient
 			}
 			else

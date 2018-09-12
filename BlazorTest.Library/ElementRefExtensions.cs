@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Blazor;
-using Microsoft.AspNetCore.Blazor.Browser.Interop;
+using Microsoft.JSInterop;
 
 namespace BlazorTest.Library
 {
@@ -11,7 +11,8 @@ namespace BlazorTest.Library
     {
         public static void Focus(this ElementRef elementRef)
         {
-            RegisteredFunction.Invoke<object>("BlazorFocus.FocusElement", elementRef);
+			JSRuntime.Current.InvokeAsync<object>("BlazorFocus.FocusElement", elementRef);
+//			RegisteredFunction.Invoke<object>("BlazorFocus.FocusElement", elementRef);
         }
     }
 }
